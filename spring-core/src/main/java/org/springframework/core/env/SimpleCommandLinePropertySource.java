@@ -80,6 +80,9 @@ import org.springframework.util.StringUtils;
  */
 public class SimpleCommandLinePropertySource extends CommandLinePropertySource<CommandLineArgs> {
 
+
+	// this.source 能访问到父类中存放的具体数据。
+
 	/**
 	 * Create a new {@code SimpleCommandLinePropertySource} having the default name
 	 * and backed by the given {@code String[]} of command line arguments.
@@ -103,6 +106,8 @@ public class SimpleCommandLinePropertySource extends CommandLinePropertySource<C
 	 */
 	@Override
 	public String[] getPropertyNames() {
+		// this.source的类型定义的是T呀，为什么【this.source.getOptionNames()】可以直接推断类型T为CommandLineArgs呢。
+		// 答：因为当前类继承的是CommandLinePropertySource<CommandLineArgs>，规定了T类型就是CommandLineArgs类型，所以这里可以直接推断T的类型
 		return StringUtils.toStringArray(this.source.getOptionNames());
 	}
 

@@ -67,6 +67,11 @@ public class GenericApplicationListenerAdapter implements GenericApplicationList
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean supportsEventType(ResolvableType eventType) {
+		/**
+		 * 适配器GenericApplicationListenerAdapter的类型判断。依据前面的结果，只会在listener接口不是GenericApplicationListener下才会走适配器GenericApplicationListenerAdapter
+		 * 所以：1、SmartApplicationListener会走适配器；2、普通的listener也会走适配器
+		 * SpringBoot有很多listener都是用的SmartApplicationListener接口的方式来支持多种事件的监听（many event）
+		 */
 		if (this.delegate instanceof SmartApplicationListener) {
 			Class<? extends ApplicationEvent> eventClass = (Class<? extends ApplicationEvent>) eventType.resolve();
 			return (eventClass != null && ((SmartApplicationListener) this.delegate).supportsEventType(eventClass));

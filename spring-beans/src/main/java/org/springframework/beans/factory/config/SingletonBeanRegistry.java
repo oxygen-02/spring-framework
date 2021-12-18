@@ -31,6 +31,9 @@ import org.springframework.lang.Nullable;
  * @see ConfigurableBeanFactory
  * @see org.springframework.beans.factory.support.DefaultSingletonBeanRegistry
  * @see org.springframework.beans.factory.support.AbstractBeanFactory
+ *
+ * 也是一种注册bean的方式
+ * 是一个接口，为共享的bean实例定义了一个registry
  */
 public interface SingletonBeanRegistry {
 
@@ -54,6 +57,9 @@ public interface SingletonBeanRegistry {
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet
 	 * @see org.springframework.beans.factory.DisposableBean#destroy
 	 * @see org.springframework.beans.factory.support.BeanDefinitionRegistry#registerBeanDefinition
+	 *
+	 * 吧一个存在的对象注册成为一个单例（直接向容器中的缓冲中添加已经存在的bean）
+	 * 也是一种注册bean的方式
 	 */
 	void registerSingleton(String beanName, Object singletonObject);
 

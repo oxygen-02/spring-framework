@@ -129,13 +129,17 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 
 	@Override
 	public void multicastEvent(final ApplicationEvent event, @Nullable ResolvableType eventType) {
+		// 吧event事件包装成ResolvableType类型
+		// ResolvableType是spring为简化Java反射API而提供的组件，能够轻松的获取泛型类型等（简而言之就是处理泛型的方便的工具类）
 		ResolvableType type = (eventType != null ? eventType : resolveDefaultEventType(event));
 		Executor executor = getTaskExecutor();
+		// 解析哪些listeners能支持ResolvableType类型的事件
 		for (ApplicationListener<?> listener : getApplicationListeners(event, type)) {
 			if (executor != null) {
 				executor.execute(() -> invokeListener(listener, event));
 			}
 			else {
+				// 执行具体的监听器方法
 				invokeListener(listener, event);
 			}
 		}

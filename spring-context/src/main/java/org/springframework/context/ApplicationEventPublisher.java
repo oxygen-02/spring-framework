@@ -29,6 +29,9 @@ package org.springframework.context;
  * @see org.springframework.context.ApplicationEvent
  * @see org.springframework.context.event.ApplicationEventMulticaster
  * @see org.springframework.context.event.EventPublicationInterceptor
+ *
+ * 函数式接口
+ * 封装了事件发布的函数
  */
 @FunctionalInterface
 public interface ApplicationEventPublisher {
@@ -46,6 +49,8 @@ public interface ApplicationEventPublisher {
 	 * @see #publishEvent(Object)
 	 * @see org.springframework.context.event.ContextRefreshedEvent
 	 * @see org.springframework.context.event.ContextClosedEvent
+	 *
+	 * 唤醒所有的匹配的listener（使用this application注册的application event事件）
 	 */
 	default void publishEvent(ApplicationEvent event) {
 		publishEvent((Object) event);
@@ -65,6 +70,9 @@ public interface ApplicationEventPublisher {
 	 * @since 4.2
 	 * @see #publishEvent(ApplicationEvent)
 	 * @see PayloadApplicationEvent
+	 *
+	 * 从4.2开始，允许发布Object类型的事件，通过吧object包装成PayloadApplicationEvent来实现发布ApplicationEvent。
+	 * 唤醒所有匹配的listener（使用this application注册的事件，而不是仅仅限与application event）
 	 */
 	void publishEvent(Object event);
 

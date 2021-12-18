@@ -26,6 +26,11 @@ import org.springframework.beans.BeansException;
  *
  * @author Juergen Hoeller
  * @since 1.0.1
+ *
+ * 后置处理器，在销毁之前的回调
+ * 1、requiresDestruction判断是否需要回调
+ * 2、postProcessBeforeDestruction处理回调
+ * 经典实现是：ApplicationListenerDetector
  */
 public interface DestructionAwareBeanPostProcessor extends BeanPostProcessor {
 

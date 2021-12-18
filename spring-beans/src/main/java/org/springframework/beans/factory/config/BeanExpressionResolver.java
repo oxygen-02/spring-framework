@@ -30,6 +30,9 @@ import org.springframework.lang.Nullable;
  *
  * @author Juergen Hoeller
  * @since 3.0
+ *
+ * 策略接口
+ * 解析一个值通过作为表达式评估
  */
 public interface BeanExpressionResolver {
 

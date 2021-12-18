@@ -174,6 +174,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * reference to a currently created singleton (resolving a circular reference).
 	 * @param beanName the name of the bean to look for
 	 * @param allowEarlyReference whether early references should be created or not
+	 *                            是否允许调用第3级缓存的工厂方法（什么时候应该允许调用工厂方法？
 	 * @return the registered singleton object, or {@code null} if none found
 	 */
 	@Nullable
@@ -191,7 +192,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 						if (singletonObject == null) {
 							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 							if (singletonFactory != null) {
+
+								// 调用工厂方法【1、工厂模式下会调用；2、循环依赖下会调用】
 								singletonObject = singletonFactory.getObject();
+
+								// 调用了工厂方法后就会从3级--->2级
 								this.earlySingletonObjects.put(beanName, singletonObject);
 								this.singletonFactories.remove(beanName);
 							}
@@ -224,6 +229,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				if (logger.isDebugEnabled()) {
 					logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
 				}
+				// singleton创建之前的回调
 				beforeSingletonCreation(beanName);
 				boolean newSingleton = false;
 				boolean recordSuppressedExceptions = (this.suppressedExceptions == null);
@@ -231,6 +237,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					this.suppressedExceptions = new LinkedHashSet<>();
 				}
 				try {
+					// 调用lamba的回调方法
 					singletonObject = singletonFactory.getObject();
 					newSingleton = true;
 				}
@@ -254,9 +261,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					if (recordSuppressedExceptions) {
 						this.suppressedExceptions = null;
 					}
+					// singleton创建之后的回调方法
 					afterSingletonCreation(beanName);
 				}
 				if (newSingleton) {
+					// 通常情况下，是在这里吧earlySingletonObjects的状态移除的（一般先是吧要创建的bean加入到3级缓存，然后从缓存中获取从而到达2级缓存，最后在这里由2级到1级）
 					addSingleton(beanName, singletonObject);
 				}
 			}
@@ -349,6 +358,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * <p>The default implementation register the singleton as currently in creation.
 	 * @param beanName the name of the singleton about to be created
 	 * @see #isSingletonCurrentlyInCreation
+	 *
+	 * singleton创建之前的回调
+	 * 什么情况下会返回异常呢：set集合添加失败时（重复添加会失败），重复创建bean时会抛出异常
 	 */
 	protected void beforeSingletonCreation(String beanName) {
 		if (!this.inCreationCheckExclusions.contains(beanName) && !this.singletonsCurrentlyInCreation.add(beanName)) {
@@ -361,6 +373,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * <p>The default implementation marks the singleton as not in creation anymore.
 	 * @param beanName the name of the singleton that has been created
 	 * @see #isSingletonCurrentlyInCreation
+	 *
+	 * singleton创建之后的回调
+	 * 什么情况下会抛出异常：set集合移除失败时（重复移除会失败）
 	 */
 	protected void afterSingletonCreation(String beanName) {
 		if (!this.inCreationCheckExclusions.contains(beanName) && !this.singletonsCurrentlyInCreation.remove(beanName)) {

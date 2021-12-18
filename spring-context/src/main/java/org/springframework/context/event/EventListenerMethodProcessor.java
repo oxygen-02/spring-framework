@@ -58,6 +58,8 @@ import org.springframework.util.CollectionUtils;
  * @since 4.2
  * @see EventListenerFactory
  * @see DefaultEventListenerFactory
+ *
+ * 功能：注册@EventListener标注的方法为"个人的 ApplicationListener 监听器实例"
  */
 public class EventListenerMethodProcessor
 		implements SmartInitializingSingleton, ApplicationContextAware, BeanFactoryPostProcessor {
@@ -130,6 +132,7 @@ public class EventListenerMethodProcessor
 						}
 					}
 					try {
+						// 会在no-lazy的bean初始化后，处理@EventListener注解
 						processBean(beanName, type);
 					}
 					catch (Throwable ex) {
@@ -148,6 +151,7 @@ public class EventListenerMethodProcessor
 
 			Map<Method, EventListener> annotatedMethods = null;
 			try {
+				// 获取标注了@EventListener的方法
 				annotatedMethods = MethodIntrospector.selectMethods(targetType,
 						(MethodIntrospector.MetadataLookup<EventListener>) method ->
 								AnnotatedElementUtils.findMergedAnnotation(method, EventListener.class));
@@ -167,6 +171,7 @@ public class EventListenerMethodProcessor
 			}
 			else {
 				// Non-empty set of methods
+				// 方法不为空
 				ConfigurableApplicationContext context = this.applicationContext;
 				Assert.state(context != null, "No ApplicationContext set");
 				List<EventListenerFactory> factories = this.eventListenerFactories;
@@ -175,11 +180,15 @@ public class EventListenerMethodProcessor
 					for (EventListenerFactory factory : factories) {
 						if (factory.supportsMethod(method)) {
 							Method methodToUse = AopUtils.selectInvocableMethod(method, context.getType(beanName));
+
+							// 创建监听器（返回一个适配器的监听器类：ApplicationListenerMethodAdapter）
 							ApplicationListener<?> applicationListener =
 									factory.createApplicationListener(beanName, targetType, methodToUse);
 							if (applicationListener instanceof ApplicationListenerMethodAdapter) {
 								((ApplicationListenerMethodAdapter) applicationListener).init(context, this.evaluator);
 							}
+
+							// 添加监听器到容器中
 							context.addApplicationListener(applicationListener);
 							break;
 						}

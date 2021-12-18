@@ -60,6 +60,8 @@ import org.springframework.util.StringUtils;
  * @see org.springframework.stereotype.Service#value()
  * @see org.springframework.stereotype.Controller#value()
  * @see javax.inject.Named#value()
+ *
+ * 默认的组件扫描的名称生成策略（class的最短名称并且第一个字母小写）。如：com.xyz.FooServiceImpl ---> fooServiceImpl
  */
 public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 

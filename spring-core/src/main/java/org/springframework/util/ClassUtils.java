@@ -179,6 +179,10 @@ public abstract class ClassUtils {
 	 * ClassLoader isn't accessible)
 	 * @see Thread#getContextClassLoader()
 	 * @see ClassLoader#getSystemClassLoader()
+	 *
+	 * 返回默认的ClassLoader。
+	 * 通常返回当前线程的classLoader如有
+	 * 加载当前ClassUtils的classLoader会作为"兜底classLoader"被返回
 	 */
 	@Nullable
 	public static ClassLoader getDefaultClassLoader() {

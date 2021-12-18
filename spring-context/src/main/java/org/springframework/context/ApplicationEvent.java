@@ -24,6 +24,9 @@ import java.util.EventObject;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
+ *
+ * 所有application events都应该继承ApplicationEvent
+ * 它是抽象的，因为它不针对泛型事件场景
  */
 public abstract class ApplicationEvent extends EventObject {
 

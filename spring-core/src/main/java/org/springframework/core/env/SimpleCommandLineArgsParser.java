@@ -56,6 +56,8 @@ class SimpleCommandLineArgsParser {
 	 * SimpleCommandLineArgsParser above}, returning a fully-populated
 	 * {@link CommandLineArgs} object.
 	 * @param args command line arguments, typically from a {@code main()} method
+	 *
+	 * 具体命令行参数的结果过程
 	 */
 	public CommandLineArgs parse(String... args) {
 		CommandLineArgs commandLineArgs = new CommandLineArgs();

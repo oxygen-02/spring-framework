@@ -32,6 +32,11 @@ import org.springframework.lang.Nullable;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Stephane Nicoll
+ *
+ *
+ * 有2个职责：
+ * 1、管理一定数量 ApplicationListener
+ * 2、发布事件
  */
 public interface ApplicationEventMulticaster {
 

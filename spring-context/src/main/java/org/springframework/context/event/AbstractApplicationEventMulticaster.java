@@ -168,6 +168,8 @@ public abstract class AbstractApplicationEventMulticaster
 	 * @param eventType the event type
 	 * @return a Collection of ApplicationListeners
 	 * @see org.springframework.context.ApplicationListener
+	 *
+	 * 功能：返回匹配event type 的监听器集合
 	 */
 	protected Collection<ApplicationListener<?>> getApplicationListeners(
 			ApplicationEvent event, ResolvableType eventType) {
@@ -177,6 +179,16 @@ public abstract class AbstractApplicationEventMulticaster
 		ListenerCacheKey cacheKey = new ListenerCacheKey(eventType, sourceType);
 
 		// Quick check for existing entry on ConcurrentHashMap...
+		// 快速检查是否存在entity在map中，即检查缓存中是否存在要返回的结果
+		/**
+		 * 分析"检索"缓存：
+		 * key是：ListenerCacheKey类型
+		 * 					--->必然这个类包装了event type
+		 * 					--->发现ListenerCacheKey果然包装了【sourceType和eventType】类型
+		 * 					--->只有sourceType和eventType相同才会被认定是一种事件
+		 * value是：ListenerRetriever类型
+		 * 					--->必然这个类包装了ApplicationListener集合
+		 */
 		ListenerRetriever retriever = this.retrieverCache.get(cacheKey);
 		if (retriever != null) {
 			return retriever.getApplicationListeners();
@@ -192,6 +204,7 @@ public abstract class AbstractApplicationEventMulticaster
 					return retriever.getApplicationListeners();
 				}
 				retriever = new ListenerRetriever(true);
+				// 具体《"检索"》event type对应的listeners集合的方法
 				Collection<ApplicationListener<?>> listeners =
 						retrieveApplicationListeners(eventType, sourceType, retriever);
 				this.retrieverCache.put(cacheKey, retriever);
@@ -210,6 +223,8 @@ public abstract class AbstractApplicationEventMulticaster
 	 * @param sourceType the event source type
 	 * @param retriever the ListenerRetriever, if supposed to populate one (for caching purposes)
 	 * @return the pre-filtered list of application listeners for the given event and source type
+	 *
+	 * 确切的检索listeners的方法针对给定的source type和event type
 	 */
 	private Collection<ApplicationListener<?>> retrieveApplicationListeners(
 			ResolvableType eventType, @Nullable Class<?> sourceType, @Nullable ListenerRetriever retriever) {
@@ -221,6 +236,8 @@ public abstract class AbstractApplicationEventMulticaster
 			listeners = new LinkedHashSet<>(this.defaultRetriever.applicationListeners);
 			listenerBeans = new LinkedHashSet<>(this.defaultRetriever.applicationListenerBeans);
 		}
+
+		// 1、判断listeners中是否有支持event的listener
 		for (ApplicationListener<?> listener : listeners) {
 			if (supportsEvent(listener, eventType, sourceType)) {
 				if (retriever != null) {
@@ -229,6 +246,8 @@ public abstract class AbstractApplicationEventMulticaster
 				allListeners.add(listener);
 			}
 		}
+
+		// 2、判断listenerBeans是否有支持event的listener
 		if (!listenerBeans.isEmpty()) {
 			BeanFactory beanFactory = getBeanFactory();
 			for (String listenerBeanName : listenerBeans) {
@@ -295,12 +314,23 @@ public abstract class AbstractApplicationEventMulticaster
 	 * @param sourceType the source type to check against
 	 * @return whether the given listener should be included in the candidates
 	 * for the given event type
+	 *
+	 * 功能：决定给定的listener是否支持给定的event
+	 *
+	 * 模式：适配器模式。
+	 * 		1、XxxAdapter表示，吧别的类型适配成Xxx类型，Xxx是目标
+	 * 		2、如果是GenericApplicationListener类型，就走具体的GenericApplicationListener类型
+	 * 		   如果不是GenericApplicationListener类型，就走适配器GenericApplicationListenerAdapter的处理
 	 */
 	protected boolean supportsEvent(
 			ApplicationListener<?> listener, ResolvableType eventType, @Nullable Class<?> sourceType) {
 
+		// 包装：如果listener是GenericApplicationListener则不必包装
+		//      如果不是，则需要包装。如SmartApplicationListener需要包装
 		GenericApplicationListener smartListener = (listener instanceof GenericApplicationListener ?
 				(GenericApplicationListener) listener : new GenericApplicationListenerAdapter(listener));
+
+		// 判断依据【supportsEventType和supportsSourceType都要支持】
 		return (smartListener.supportsEventType(eventType) && smartListener.supportsSourceType(sourceType));
 	}
 

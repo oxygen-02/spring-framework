@@ -135,6 +135,14 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 	 * @param listener the ApplicationListener to register
 	 * @see org.springframework.context.event.ContextRefreshedEvent
 	 * @see org.springframework.context.event.ContextClosedEvent
+	 *
+	 *
+	 * ApplicationContext实现了ApplicationEventPublisher接口，所以任何ApplicationContext都具备发布事件的能力
+	 * 子接口ConfigurableApplicationContext提供了addApplicationListener方法可以添加监听器
+	 *
+	 * 问题：
+	 * 1、通过这种方式添加的listener是不是最后也添加到了 ApplicationEventMulticaster 中
+	 * 答：将会被应用在refresh方法中
 	 */
 	void addApplicationListener(ApplicationListener<?> listener);
 

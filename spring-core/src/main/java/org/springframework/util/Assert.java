@@ -551,6 +551,8 @@ public abstract class Assert {
 	 * type will be appended. In any other case, a ":" with a space and the name
 	 * of the offending object's type will be appended.
 	 * @throws IllegalArgumentException if the object is not an instance of type
+	 *
+	 * 功能：测试obj是否是type类型的实例
 	 */
 	public static void isInstanceOf(Class<?> type, @Nullable Object obj, String message) {
 		notNull(type, "Type to check against must not be null");

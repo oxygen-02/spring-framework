@@ -136,6 +136,10 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * An ApplicationContext will typically set a standard expression strategy
 	 * here, supporting "#{...}" expressions in a Unified EL compatible style.
 	 * @since 3.0
+	 *
+	 * 指定bean definition值中表达式的解决策略
+	 * ApplicationContext通常会指定一个标准的表达式策略，来支持"#{...}"表达式的解析
+	 * 默认的解析器就一个：StandardBeanExpressionResolver（标准的Bean表达式解析器）
 	 */
 	void setBeanExpressionResolver(@Nullable BeanExpressionResolver resolver);
 

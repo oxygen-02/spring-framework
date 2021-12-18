@@ -36,6 +36,8 @@ import org.springframework.util.ObjectUtils;
  * conjunction with a {@link PropertyResolver} implementation that can perform
  * precedence-based searches across the set of {@code PropertySources}.
  *
+ * 与 PropertyResolver 配合使用
+ *
  * <p>{@code PropertySource} identity is determined not based on the content of
  * encapsulated properties, but rather based on the {@link #getName() name} of the
  * {@code PropertySource} alone. This is useful for manipulating {@code PropertySource}
@@ -56,6 +58,10 @@ import org.springframework.util.ObjectUtils;
  * @see PropertySourcesPropertyResolver
  * @see MutablePropertySources
  * @see org.springframework.context.annotation.PropertySource
+ *
+ * 功能：抽象的基础类，代表了name/value的属性对，所有的如环境变量、系统变量、命令行参数等都是存在在这个类中
+ *
+ * T 类型封装了具体的数据。这些类型可以是Properties、Map、ServletContext、ServletConfig，具体可以查看继承它的子类
  */
 public abstract class PropertySource<T> {
 
@@ -63,6 +69,7 @@ public abstract class PropertySource<T> {
 
 	protected final String name;
 
+	// 修饰符为protected，说明子类可以直接访问属性，不需要通过方法
 	protected final T source;
 
 

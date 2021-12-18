@@ -29,6 +29,9 @@ package org.springframework.beans;
  * @since 1.2.6
  * @see PropertyEditorRegistry
  * @see java.beans.PropertyEditor
+ *
+ * 这是一个"策略接口"
+ * 用来注册自定义的property editors（使用PropertyEditorRegistry来注册）
  */
 public interface PropertyEditorRegistrar {
 
