@@ -20,6 +20,7 @@ include "spring-webmvc"
 include "spring-webflux"
 include "spring-websocket"
 include "spring-framework-bom"
+include 'firefish-spring-test'
 
 // Exposes gradle buildSrc for IDE support
 include "buildSrc"
@@ -29,5 +30,5 @@ rootProject.name = "spring framework 官方项目"
 rootProject.children.each {project ->
 	project.buildFileName = "${project.name}.gradle"
 }
-include 'myspringframeworktest'
+
 
