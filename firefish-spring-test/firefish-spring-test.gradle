@@ -1,0 +1,26 @@
+plugins {
+    id 'java' // so that we can use 'implementation', 'testImplementation' for dependencies
+}
+
+description = "spring-framework-test"
+
+dependencies {
+    compile(project(":spring-context"))
+    compile(project(":spring-aop"))
+    compile(project(":spring-aspects"))
+
+    // Declaring capabilities for external modules
+    // 引入外部配置
+    // slf4j、logback
+    implementation 'org.slf4j:jcl-over-slf4j:1.7.21'
+    implementation 'ch.qos.logback:logback-classic:1.1.7'
+
+    // 引入lombok
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+    testCompileOnly 'org.projectlombok:lombok:1.18.4'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.4'
+
+    // 引入jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+}
