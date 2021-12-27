@@ -1,9 +1,6 @@
 plugins {
     id 'java' // so that we can use 'implementation', 'testImplementation' for dependencies
 }
-
-description = "spring-framework-test"
-
 dependencies {
     compile(project(":spring-context"))
     compile(project(":spring-aop"))
@@ -11,9 +8,26 @@ dependencies {
 
     // Declaring capabilities for external modules
     // 引入外部配置
+
+    /**
+     * 1、LOGBACK-CLASSIC If you wish to use logback-classic as the underlying logging framework, all you need to do is to declare "ch.qos.logback:logback-classic" as a dependency in your pom.xml file as shown below.
+     * 2、In addition to logback-classic-${logback.version}.jar, this will pull slf4j-api-${latest.stable.version}.jar as well as logback-core-${logback.version}.jar into your project.
+     * 3、Note that explicitly declaring a dependency on logback-core-${logback.version} or slf4j-api-${latest.stable.version}.jar is not wrong and may be necessary to impose the correct version of said artifacts by virtue of Maven's "nearest definition" dependency mediation rule.
+     * 如果要使用logback-classic，只需要引入ch.qos.logback:logback-classic
+     * 除了logback-classic，它也会拉去slf4j-api、logback-core
+     * 说明：注意显示的声明logback-core或slf4j-api的依赖不是错误，而且可能是必要的用来提高正确的版本
+     * 所以，只引入logback是可以的，分别指定slf4j-api、logback-core、logback-classic版本可能会更好
+     *
+     * 推广：slf4j官网针对引入log4j也是这么说明的
+     * @see: https://www.slf4j.org/manual.html
+     *
+     * 推荐开发阶段"只"引入日志接口。如：slf4j-api.jar
+     * 因为spring源码项目引入的是log4j2, 且我们为了方便是用lombok提供的日志注解，最终选择了slf4j作为日志接口，log4j2作为日志实现.
+     */
     // slf4j、logback
-    implementation 'org.slf4j:jcl-over-slf4j:1.7.21'
-    implementation 'ch.qos.logback:logback-classic:1.1.7'
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+//    implementation 'org.slf4j:jcl-over-slf4j:1.7.21'
+//    implementation 'ch.qos.logback:logback-classic:1.1.7'
 
     // 引入lombok
     compileOnly 'org.projectlombok:lombok:1.18.4'
@@ -24,3 +38,6 @@ dependencies {
     // 引入jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 }
+
+description = "spring-framework-test"
+
