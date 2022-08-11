@@ -25,6 +25,10 @@ import org.springframework.lang.Nullable;
  * @author Keith Donald
  * @author Phillip Webb
  * @since 3.0
+ *
+ * 功能：定义类型转换服务
+ * 1、能不能转换
+ * 2、怎么转换
  */
 public interface ConversionService {
 

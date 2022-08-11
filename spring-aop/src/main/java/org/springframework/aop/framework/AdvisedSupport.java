@@ -475,6 +475,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	 * @param method the proxied method
 	 * @param targetClass the target class
 	 * @return a List of MethodInterceptors (may also include InterceptorAndDynamicMethodMatchers)
+	 *
+	 * 功能：基于this工厂类的配置（其实主要就是advisors配置），针对给定的方法决定出一个MethodInterceptor的列表
+	 * 说明：创建代理阶段只针对bean找出了advisors的列表，没有细化到针对每个方法的方法拦截器，本方法就是在之前advisors基础上针对方法细化出方法具体的拦截器列表
 	 */
 	public List<Object> getInterceptorsAndDynamicInterceptionAdvice(Method method, @Nullable Class<?> targetClass) {
 		MethodCacheKey cacheKey = new MethodCacheKey(method);

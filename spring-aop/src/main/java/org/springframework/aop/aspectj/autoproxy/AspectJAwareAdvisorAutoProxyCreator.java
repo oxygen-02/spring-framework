@@ -72,6 +72,12 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 			partiallyComparableAdvisors.add(
 					new PartiallyComparableAdvisorHolder(element, DEFAULT_PRECEDENCE_COMPARATOR));
 		}
+
+		// 部分排序？拓扑排序？
+		/**
+		 * 拓扑排序的一个应用就是检测是否存在"环"的
+		 * 如下方法返回：拓扑排序后的结果或者返回null（null表示存在"环"）
+		 */
 		List<PartiallyComparableAdvisorHolder> sorted = PartialOrder.sort(partiallyComparableAdvisors);
 		if (sorted != null) {
 			List<Advisor> result = new ArrayList<>(advisors.size());
@@ -81,6 +87,7 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 			return result;
 		}
 		else {
+			// 调用AnnotationAwareOrderComparator比较器排序（就是@Priority、@Order注解排序）
 			return super.sortAdvisors(advisors);
 		}
 	}

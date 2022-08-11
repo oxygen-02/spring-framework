@@ -22,6 +22,8 @@ package org.springframework.core.convert.converter;
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
+ *
+ * 功能：定义注册转换器
  */
 public interface ConverterRegistry {
 

@@ -25,6 +25,8 @@ import org.springframework.aop.MethodMatcher;
  * with a MethodMatcher for use as an element in the advisor chain.
  *
  * @author Rod Johnson
+ *
+ * 功能：结合了"方法拦截器"和"方法匹配"
  */
 class InterceptorAndDynamicMethodMatcher {
 

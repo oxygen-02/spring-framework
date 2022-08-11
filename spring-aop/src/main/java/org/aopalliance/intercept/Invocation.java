@@ -23,6 +23,9 @@ package org.aopalliance.intercept;
  * interceptor.
  *
  * @author Rod Johnson
+ *
+ *
+ * invocation 就是一个"连接点"，能被拦截器拦截
  */
 public interface Invocation extends Joinpoint {
 

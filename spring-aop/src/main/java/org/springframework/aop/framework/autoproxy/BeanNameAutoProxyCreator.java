@@ -42,6 +42,8 @@ import org.springframework.util.StringUtils;
  * @see #isMatch
  * @see #setInterceptorNames
  * @see AbstractAutoProxyCreator
+ *
+ * 功能：自动代理创建器？？？，通过names来标识将被代理的bean，这些名称可以是3种形式（direct、"xxx*"、"*xxx"）
  */
 @SuppressWarnings("serial")
 public class BeanNameAutoProxyCreator extends AbstractAutoProxyCreator {

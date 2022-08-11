@@ -26,12 +26,21 @@ import org.springframework.lang.Nullable;
  * @since 3.1
  * @see Environment
  * @see PropertySourcesPropertyResolver
+ *
+ *
+ * 解析属性的接口，针对任何的source
+ *
+ * key：关键字
+ * targetType：期待的目标类型（可能需要转换）
+ * defaultValue，如果找不到就使用默认值
  */
 public interface PropertyResolver {
 
 	/**
 	 * Return whether the given property key is available for resolution,
 	 * i.e. if the value for the given key is not {@code null}.
+	 *
+	 * 是否包含key
 	 */
 	boolean containsProperty(String key);
 
@@ -42,6 +51,8 @@ public interface PropertyResolver {
 	 * @see #getProperty(String, String)
 	 * @see #getProperty(String, Class)
 	 * @see #getRequiredProperty(String)
+	 *
+	 * 获取key的value
 	 */
 	@Nullable
 	String getProperty(String key);
@@ -53,6 +64,8 @@ public interface PropertyResolver {
 	 * @param defaultValue the default value to return if no value is found
 	 * @see #getRequiredProperty(String)
 	 * @see #getProperty(String, Class)
+	 *
+	 * 获取key的value，如果找不到就设置默认值
 	 */
 	String getProperty(String key, String defaultValue);
 
@@ -62,6 +75,8 @@ public interface PropertyResolver {
 	 * @param key the property name to resolve
 	 * @param targetType the expected type of the property value
 	 * @see #getRequiredProperty(String, Class)
+	 *
+	 * 获取key的value，期待转换成targetType类型
 	 */
 	@Nullable
 	<T> T getProperty(String key, Class<T> targetType);
@@ -73,6 +88,8 @@ public interface PropertyResolver {
 	 * @param targetType the expected type of the property value
 	 * @param defaultValue the default value to return if no value is found
 	 * @see #getRequiredProperty(String, Class)
+	 *
+	 * 获取key的value值，如果获取不到就设置为defaultValue，并且要转换成targetType类型
 	 */
 	<T> T getProperty(String key, Class<T> targetType, T defaultValue);
 

@@ -42,6 +42,8 @@ import org.springframework.aop.support.ComposablePointcut;
  * @author Juergen Hoeller
  * @since 2.0
  * @see org.springframework.aop.aspectj.AspectJExpressionPointcut
+ *
+ * 功能：切面的元数据
  */
 @SuppressWarnings("serial")
 public class AspectMetadata implements Serializable {

@@ -39,6 +39,8 @@ import org.springframework.lang.Nullable;
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @since May 2, 2001
+ *
+ * 暴露总的运行时间和每个任务的运行时间
  */
 public class StopWatch {
 

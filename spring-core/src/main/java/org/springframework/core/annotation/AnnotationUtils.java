@@ -701,6 +701,8 @@ public abstract class AnnotationUtils {
 	 * @param clazz the class to look for annotations on
 	 * @param annotationType the type of annotation to look for
 	 * @return the first matching annotation, or {@code null} if not found
+	 *
+	 * 功能：查找注解在指定的类上（会穿越接口、父类、注解的注解）
 	 */
 	@Nullable
 	public static <A extends Annotation> A findAnnotation(Class<?> clazz, @Nullable Class<A> annotationType) {

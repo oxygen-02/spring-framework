@@ -255,10 +255,10 @@ public class InitDestroyAnnotationBeanPostProcessor
 		private final Collection<LifecycleElement> destroyMethods;
 
 		@Nullable
-		private volatile Set<LifecycleElement> checkedInitMethods;
+		private volatile Set<LifecycleElement> checkedInitMethods; // 是 initMethods 的子集，作用待研究
 
 		@Nullable
-		private volatile Set<LifecycleElement> checkedDestroyMethods;
+		private volatile Set<LifecycleElement> checkedDestroyMethods; // 是 destroyMethods的子集，作用待研究
 
 		public LifecycleMetadata(Class<?> targetClass, Collection<LifecycleElement> initMethods,
 				Collection<LifecycleElement> destroyMethods) {

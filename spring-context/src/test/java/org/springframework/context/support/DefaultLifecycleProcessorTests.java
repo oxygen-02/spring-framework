@@ -16,10 +16,11 @@
 
 package org.springframework.context.support;
 
+import static org.junit.Assert.*;
+
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.junit.Test;
-
 import org.springframework.beans.DirectFieldAccessor;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -29,8 +30,6 @@ import org.springframework.context.LifecycleProcessor;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.tests.Assume;
 import org.springframework.tests.TestGroup;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Mark Fisher

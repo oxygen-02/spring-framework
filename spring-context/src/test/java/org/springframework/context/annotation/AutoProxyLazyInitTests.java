@@ -42,7 +42,7 @@ public class AutoProxyLazyInitTests {
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigWithStatic.class);
 		MyBean bean = ctx.getBean("myBean", MyBean.class);
 
-		assertFalse(MyBeanImpl.initialized);
+		assertFalse(MyBeanImpl.initialized);	// 为啥还测试失败，是我改了什么？？现象：打了debug就测试失败，不debug就成功了，咋回事
 		bean.doIt();
 		assertTrue(MyBeanImpl.initialized);
 	}
@@ -209,6 +209,10 @@ public class AutoProxyLazyInitTests {
 	}
 
 
+	/**
+	 * 1、这个的作用是什么，为什么能使aop在没有经历doCreateBean就完成了代理对象的创建。？？？
+	 * 2、那么又为什么不使bean经历doCreateBean生命周期呢？？？
+	 */
 	private static class StrictLazyInitTargetSourceCreator extends LazyInitTargetSourceCreator {
 
 		@Override

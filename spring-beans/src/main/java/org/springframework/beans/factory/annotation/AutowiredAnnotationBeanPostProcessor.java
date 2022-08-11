@@ -143,6 +143,8 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 	 * standard {@link Autowired @Autowired} annotation.
 	 * <p>Also supports JSR-330's {@link javax.inject.Inject @Inject} annotation,
 	 * if available.
+	 *
+	 * 处理@Autowired注解或者@Value注解，也能处理@Inject注解
 	 */
 	@SuppressWarnings("unchecked")
 	public AutowiredAnnotationBeanPostProcessor() {
@@ -298,8 +300,9 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 							continue;
 						}
 						AnnotationAttributes ann = findAutowiredAnnotation(candidate);
+						// 如果在候选构造器上没有找到3个注解（@Autowired、@Value、@Inject）
 						if (ann == null) {
-							Class<?> userClass = ClassUtils.getUserClass(beanClass);
+							Class<?> userClass = ClassUtils.getUserClass(beanClass); // cglib相关？
 							if (userClass != beanClass) {
 								try {
 									Constructor<?> superCtor =
@@ -350,6 +353,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 						candidateConstructors = candidates.toArray(new Constructor<?>[0]);
 					}
 					else if (rawCandidates.length == 1 && rawCandidates[0].getParameterCount() > 0) {
+						// 只有一个构造器且构造器的参数大于0个，这就是一个构造器不用贴@Autowired的原因吧？？？
 						candidateConstructors = new Constructor<?>[] {rawCandidates[0]};
 					}
 					else if (nonSyntheticConstructors == 2 && primaryConstructor != null &&

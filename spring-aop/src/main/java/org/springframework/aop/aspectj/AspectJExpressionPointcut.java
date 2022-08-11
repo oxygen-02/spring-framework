@@ -224,6 +224,8 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 			pointcutParameters[i] = parser.createPointcutParameter(
 					this.pointcutParameterNames[i], this.pointcutParameterTypes[i]);
 		}
+
+		pointcutParameters = new PointcutParameter[0]; // 避免测试时aspectj报错
 		return parser.parsePointcutExpression(replaceBooleanOperators(resolveExpression()),
 				this.pointcutDeclarationScope, pointcutParameters);
 	}

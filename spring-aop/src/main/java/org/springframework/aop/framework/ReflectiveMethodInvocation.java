@@ -155,11 +155,17 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	}
 
 
+	/**
+	 * 拦截器模式：
+	 * 1、本类作为拦截器模式的核心，持有一个列表（包含所有拦截器）
+	 * 2、没调用一个具体的拦截器就把this作为参数传递给拦截器---> 拦截器调用完自己的逻辑 ---> 返回到"核心" ........核心继续触发下一个拦截器的调用然后在返回核心
+	 */
 	@Override
 	@Nullable
 	public Object proceed() throws Throwable {
 		// We start with an index of -1 and increment early.
 		if (this.currentInterceptorIndex == this.interceptorsAndDynamicMethodMatchers.size() - 1) {
+			// 这里才是调用真正我们自己定义的业务方法
 			return invokeJoinpoint();
 		}
 
@@ -183,6 +189,7 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 		else {
 			// It's an interceptor, so we just invoke it: The pointcut will have
 			// been evaluated statically before this object was constructed.
+			// 执行拦截器（了解责任链模式会吧核心类this传给各个组件）
 			return ((MethodInterceptor) interceptorOrInterceptionAdvice).invoke(this);
 		}
 	}

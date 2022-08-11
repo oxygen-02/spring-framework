@@ -41,7 +41,10 @@ class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
+		// 注册启用aop功能的bean
 		AopNamespaceUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(parserContext, element);
+
+		// 解析子元素
 		extendBeanDefinition(element, parserContext);
 		return null;
 	}
@@ -54,6 +57,7 @@ class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
 		}
 	}
 
+	// 其实就是解析[aspectj-autoproxy]元素的子元素
 	private void addIncludePatterns(Element element, ParserContext parserContext, BeanDefinition beanDef) {
 		ManagedList<TypedStringValue> includePatterns = new ManagedList<>();
 		NodeList childNodes = element.getChildNodes();
@@ -68,6 +72,8 @@ class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
 		}
 		if (!includePatterns.isEmpty()) {
 			includePatterns.setSource(parserContext.extractSource(element));
+			// 最后吧子元素加入到BeanDefinition中的属性中
+			// 既然加入的是属性，那么你知道他会在"属性填充"阶段吧值填充到bean instance中把
 			beanDef.getPropertyValues().add("includePatterns", includePatterns);
 		}
 	}

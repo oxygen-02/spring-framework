@@ -116,6 +116,9 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 	 * <p>If no &lt;aop:include&gt; elements were used then "includePatterns" will be
 	 * {@code null} and all beans are included. If "includePatterns" is non-null,
 	 * then one of the patterns must match.
+	 *
+	 * 功能：检查给定的aspect bean是否符合自动代理的条件
+	 * 如果没有使用【aop:include】元素，那么“includePatterns”将为null，并且包含所有bean。如果“includePatterns”为非null，则其中一个模式必须匹配
 	 */
 	protected boolean isEligibleAspectBean(String beanName) {
 		if (this.includePatterns == null) {

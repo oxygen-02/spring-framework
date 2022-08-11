@@ -59,6 +59,8 @@ import org.springframework.util.StringUtils;
  * @author Phillip Webb
  * @author David Haraburda
  * @since 3.0
+ *
+ * 功能：基础的ConversionService实现，能被使用在大多数的environments环境中
  */
 public class GenericConversionService implements ConfigurableConversionService {
 
@@ -91,15 +93,18 @@ public class GenericConversionService implements ConfigurableConversionService {
 			throw new IllegalArgumentException("Unable to determine source type <S> and target type <T> for your " +
 					"Converter [" + converter.getClass().getName() + "]; does the class parameterize those types?");
 		}
+		// XxxAdapter，Xxx是目标。
 		addConverter(new ConverterAdapter(converter, typeInfo[0], typeInfo[1]));
 	}
 
 	@Override
 	public <S, T> void addConverter(Class<S> sourceType, Class<T> targetType, Converter<? super S, ? extends T> converter) {
+		// 适配器模式
 		addConverter(new ConverterAdapter(
 				converter, ResolvableType.forClass(sourceType), ResolvableType.forClass(targetType)));
 	}
 
+	// 3种类型的Converter，最后都会调用到【public void addConverter(GenericConverter converter)】方法
 	@Override
 	public void addConverter(GenericConverter converter) {
 		this.converters.add(converter);

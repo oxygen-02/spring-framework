@@ -182,6 +182,7 @@ public class EventListenerMethodProcessor
 							Method methodToUse = AopUtils.selectInvocableMethod(method, context.getType(beanName));
 
 							// 创建监听器（返回一个适配器的监听器类：ApplicationListenerMethodAdapter）
+							// 通过factory吧methodToUse适配成一个listener。
 							ApplicationListener<?> applicationListener =
 									factory.createApplicationListener(beanName, targetType, methodToUse);
 							if (applicationListener instanceof ApplicationListenerMethodAdapter) {

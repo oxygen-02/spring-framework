@@ -22,10 +22,10 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.aopalliance.aop.Advice;
+import org.aopalliance.intercept.Joinpoint;
 import org.aopalliance.intercept.MethodInvocation;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -73,6 +73,7 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 	 * Requires MethodInvocation to be bound with ExposeInvocationInterceptor.
 	 * <p>Do not use if access is available to the current ReflectiveMethodInvocation
 	 * (in an around advice).
+	 *
 	 * @return current AspectJ joinpoint, or through an exception if we're not in a
 	 * Spring AOP invocation.
 	 */
@@ -385,6 +386,8 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 
 		int numUnboundArgs = this.parameterTypes.length;
 		Class<?>[] parameterTypes = this.aspectJAdviceMethod.getParameterTypes();
+		// **** 设置 JoinPoint|ProceedingJoinPoint| 的参数索引为0（即第0个参数） ***
+		// 很重要，如果切面方法的参数有JoinPoint或者ProceedJoinPoint，则必须是第0个参数，否则不能绑定
 		if (maybeBindJoinPoint(parameterTypes[0]) || maybeBindProceedingJoinPoint(parameterTypes[0]) ||
 				maybeBindJoinPointStaticPart(parameterTypes[0])) {
 			numUnboundArgs--;
@@ -392,6 +395,7 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 
 		if (numUnboundArgs > 0) {
 			// need to bind arguments by name as returned from the pointcut match
+			// 其他非JoinPoint参数则根据名称绑定（主要是指：返回值参数、异常参数）
 			bindArgumentsByName(numUnboundArgs);
 		}
 
@@ -531,13 +535,17 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 		Class<?>[] pointcutParameterTypes = new Class<?>[pointcutParameterNames.length];
 		Class<?>[] methodParameterTypes = this.aspectJAdviceMethod.getParameterTypes();
 
+//      如果只是这里增加了参数绑定，还是通不过aspectj的检验
+//		pointcutParameterNames = new String[argumentNames.length];
+//		pointcutParameterTypes = new Class<?>[argumentNames.length];
+
 		int index = 0;
 		for (int i = 0; i < argumentNames.length; i++) {
 			if (i < argumentIndexOffset) {
 				continue;
 			}
 			if (argumentNames[i].equals(this.returningName) ||
-				argumentNames[i].equals(this.throwingName)) {
+					argumentNames[i].equals(this.throwingName)) {
 				continue;
 			}
 			pointcutParameterNames[index] = argumentNames[i];
@@ -567,17 +575,50 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 		Object[] adviceInvocationArgs = new Object[this.parameterTypes.length];
 		int numBound = 0;
 
-		if (this.joinPointArgumentIndex != -1) {
-			adviceInvocationArgs[this.joinPointArgumentIndex] = jp;
-			numBound++;
+		/**
+		 * 1、joinPointArgumentIndex 变量指定的就是JoinPoint变量应该被绑定的位置，默认是-1，但是参数的索引从0开始不可能是-1，所以要想被绑定上必须改变joinPointArgumentIndex的值。
+		 * 2、sping在计算每个切面的每个advisor的时候，默认吧JoinPoint或ProceedJoinPoint都绑定到了"参数索引是0"的位置
+		 * 3、为什么spring不根据方法参数的type来进行绑定，而非要绑定在0的位置
+		 * 答：
+		 * 		一共就不需要几个参数。
+		 * 		普通参数可以通过JoinPoint的getArgs获取到；返回值和异常aop联盟都提供了专门的注解属性；around完全由自己控制只需要一个ProceedJoinPoint参数
+		 * 		我这个解释能合理？？？
+		 * 	还有：如果不是第0个参数，框架直接给你报错
+		 * 4、我们自己能不能实现根据type来绑定
+		 */
+//		if (this.joinPointArgumentIndex != -1) {
+//			adviceInvocationArgs[this.joinPointArgumentIndex] = jp;
+//			numBound++;
+//		} else if (this.joinPointStaticPartArgumentIndex != -1) {
+//			adviceInvocationArgs[this.joinPointStaticPartArgumentIndex] = jp.getStaticPart();
+//			numBound++;
+//		}
+
+
+		List<Class<?>> classes = Arrays.asList(JoinPoint.class, JoinPoint.StaticPart.class);
+		/**
+		 * 1、在org.springframework.aop.aspectj.AspectJExpressionPointcut#buildPointcutExpression(java.lang.ClassLoader)位置设置
+		 * 		pointcutParameters 的长度为0，排除aspectj内部的报错干扰后，在加上下面的代码确实实现了根据type来进行注入，不必非要JoinPoint在第0个参数
+		 *
+		 * 替换 默认的根据args index来进行绑定，更改为根据类型进行绑定
+		 */
+		outer:
+		for (int i = 0; i < this.parameterTypes.length; i++) {
+			Class<?> type = this.parameterTypes[i];
+			for (Class<?> expect : classes) {
+				if (expect.isAssignableFrom(type)) {
+					adviceInvocationArgs[i] = jp;
+					numBound++;
+					// 跳出外层循环（保持跟原文一致，joinPointArgumentIndex或者joinPointStaticPartArgumentIndex只能绑定一次）
+//					break outer;
+				}
+			}
 		}
-		else if (this.joinPointStaticPartArgumentIndex != -1) {
-			adviceInvocationArgs[this.joinPointStaticPartArgumentIndex] = jp.getStaticPart();
-			numBound++;
-		}
+
 
 		if (!CollectionUtils.isEmpty(this.argumentBindings)) {
 			// binding from pointcut match
+			// 这个方法什么时候能进来？？？（在pointcut有参数的时候？）
 			if (jpMatch != null) {
 				PointcutParameter[] parameterBindings = jpMatch.getParameterBindings();
 				for (PointcutParameter parameter : parameterBindings) {

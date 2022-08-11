@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+
+	<!-- 1、有能力猜到include在哪里被真正使用
+		0、解析时放入AnnotationAwareAspectJAutoProxyCreator的mbd定义中
+		1、属性填充时对mbd的值填充到instance中
+		2、调用后置处理器，处理所有的切面时，会判断bean是否合法（会依据include的属性判断）
+	-->
+	<aop:aspectj-autoproxy>
+			<aop:include name="helloAo.*"/>
+	</aop:aspectj-autoproxy>
+
+	<bean id="helloAopBean" class="com.firefish.springframework.aop.entity.HelloAopBean"/>
+
+	<bean id="helloAopAspectJ" class="com.firefish.springframework.aop.aspectj.HelloAopAspectJ" />
+
+
+</beans>

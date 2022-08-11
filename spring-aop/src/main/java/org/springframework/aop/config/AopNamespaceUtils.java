@@ -74,9 +74,15 @@ public abstract class AopNamespaceUtils {
 	public static void registerAspectJAnnotationAutoProxyCreatorIfNecessary(
 			ParserContext parserContext, Element sourceElement) {
 
+		// 1、如果必要的话，注册"AspectJ注解自动代理创建器"
 		BeanDefinition beanDefinition = AopConfigUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(
 				parserContext.getRegistry(), parserContext.extractSource(sourceElement));
+
+		// 2、如果有必要，使用cglib代理【其实就是解析proxy-target-class、expose-proxy属性并放入到BD中】
 		useClassProxyingIfNecessary(parserContext.getRegistry(), sourceElement);
+
+
+		// 作用待明确？？？
 		registerComponentIfNecessary(beanDefinition, parserContext);
 	}
 

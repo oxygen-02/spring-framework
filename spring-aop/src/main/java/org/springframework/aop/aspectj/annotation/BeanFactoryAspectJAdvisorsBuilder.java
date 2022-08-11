@@ -83,15 +83,19 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	public List<Advisor> buildAspectJAdvisors() {
 		List<String> aspectNames = this.aspectBeanNames;
 
+		// 1、第一次调用代码时才会进入（因为只有初始化时才会为null，执行过一次后就会是一个集合）
 		if (aspectNames == null) {
 			synchronized (this) {
 				aspectNames = this.aspectBeanNames;
 				if (aspectNames == null) {
 					List<Advisor> advisors = new ArrayList<>();
 					aspectNames = new ArrayList<>();
+					// 2、获取容器中所有对象
 					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 							this.beanFactory, Object.class, true, false);
+					// 3、遍历
 					for (String beanName : beanNames) {
+						// 4、是否是合法的beanName（会判断xml中可配置的"includePatterns"属性"）（找了半天原来在这里，居然没有猜出来，说明对aop不够熟练）
 						if (!isEligibleBean(beanName)) {
 							continue;
 						}
@@ -101,12 +105,17 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						if (beanType == null) {
 							continue;
 						}
+
+						// 5、判断beanType是否是一个切面
 						if (this.advisorFactory.isAspect(beanType)) {
 							aspectNames.add(beanName);
 							AspectMetadata amd = new AspectMetadata(beanType, beanName);
 							if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
 								MetadataAwareAspectInstanceFactory factory =
 										new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
+
+								// -------------核心方法------------
+								// 6、获取切切面的"增强（advisor）"
 								List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 								if (this.beanFactory.isSingleton(beanName)) {
 									this.advisorsCache.put(beanName, classAdvisors);
@@ -135,6 +144,8 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 			}
 		}
 
+
+		// 非第一次就直接走了缓存
 		if (aspectNames.isEmpty()) {
 			return Collections.emptyList();
 		}

@@ -36,6 +36,14 @@ import java.lang.reflect.AccessibleObject;
  *
  * @author Rod Johnson
  * @see Interceptor
+ *
+ * 功能：代表了一个"通用的动态连接点"
+ *
+ * "动态连接点"是发生在"静态连接点"上的一个事件。例如，调用invocation就是一个动态连接点在方法上（静态连接点）。静态连接点可以通过[getStaticPart]方法获取
+ *
+ * 在拦截框架的上下文中，动态连接点是"具体化"，访问accessible object（方法、构造器、字段）
+ *
+ * 其实其实，一般连接点就是指"方法method"
  */
 public interface Joinpoint {
 
@@ -45,6 +53,8 @@ public interface Joinpoint {
 	 * on the actual joinpoint type (see the children interfaces).
 	 * @return see the children interfaces' proceed definition
 	 * @throws Throwable if the joinpoint throws an exception
+	 *
+	 * 执行拦截器链中的下一个拦截器
 	 */
 	Object proceed() throws Throwable;
 

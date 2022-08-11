@@ -27,6 +27,9 @@ import java.lang.reflect.Method;
  *
  * @author Rod Johnson
  * @see MethodInterceptor
+ *
+ * "连接点"的代表类
+ * 功能：描述对方法的调用（一般来讲"连接点"就是针对方法的，尽管aop术语可能有别的含义，这里算喜欢了aop属性对连接点的定义？？？）
  */
 public interface MethodInvocation extends Invocation {
 

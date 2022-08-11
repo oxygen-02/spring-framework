@@ -77,6 +77,7 @@ public class OrderComparator implements Comparator<Object> {
 		boolean p1 = (o1 instanceof PriorityOrdered);
 		boolean p2 = (o2 instanceof PriorityOrdered);
 		if (p1 && !p2) {
+			// 返回-1则交换位置，则o1要交换到前面也就是实现了该接口排序靠前
 			return -1;
 		}
 		else if (p2 && !p1) {
@@ -85,6 +86,10 @@ public class OrderComparator implements Comparator<Object> {
 
 		int i1 = getOrder(o1, sourceProvider);
 		int i2 = getOrder(o2, sourceProvider);
+
+		// o1 不是第二个位置，o2不是第一个位置？？？？？？---> 不是，只有在sort的时候依据排序规则，第一个参数才是后面的位置，第二个参数是前面的位置
+		// 如果返回-1，则交换位置
+		// 排序时，order越大越在后面
 		return Integer.compare(i1, i2);
 	}
 

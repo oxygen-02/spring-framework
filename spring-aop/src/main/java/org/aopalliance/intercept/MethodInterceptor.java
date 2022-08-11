@@ -38,6 +38,11 @@ package org.aopalliance.intercept;
  * </pre>
  *
  * @author Rod Johnson
+ *
+ * 功能：拦截调用（intercept calls）。方法拦截器（"增强"或者"拦截器"的代表类）
+ * 在去target的路上拦截方法的调用。它们被嵌套在target的外面（on top）。
+ *
+ * 拦截（针对接口的调用，在去target的路上）调用。算吧拦截器细化到方法了吗？？？那么还有针对非方法的其他的拦截？？？
  */
 @FunctionalInterface
 public interface MethodInterceptor extends Interceptor {
@@ -46,7 +51,7 @@ public interface MethodInterceptor extends Interceptor {
 	 * Implement this method to perform extra treatments before and
 	 * after the invocation. Polite implementations would certainly
 	 * like to invoke {@link Joinpoint#proceed()}.
-	 * @param invocation the method invocation joinpoint
+	 * @param invocation the method invocation joinpoint		方法调用连接点
 	 * @return the result of the call to {@link Joinpoint#proceed()};
 	 * might be intercepted by the interceptor
 	 * @throws Throwable if the interceptors or the target object

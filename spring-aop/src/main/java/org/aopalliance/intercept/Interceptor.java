@@ -53,6 +53,8 @@ import org.aopalliance.aop.Advice;
  *
  * @author Rod Johnson
  * @see Joinpoint
+ *
+ * 功能：表示了一个通用的拦截（所以是拦截器的顶级接口？？？）
  */
 public interface Interceptor extends Advice {
 

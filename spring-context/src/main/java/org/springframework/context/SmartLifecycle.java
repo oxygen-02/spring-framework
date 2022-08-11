@@ -63,6 +63,11 @@ package org.springframework.context;
  * @since 3.0
  * @see LifecycleProcessor
  * @see ConfigurableApplicationContext
+ *
+ * 接口：Lifecycle接口的拓展（为了有顺序要求的particular order）
+ *
+ * 那么我们看一下顺序怎么体现--->getPhase--->DefaultLifecycleProcessor类用到--->
+ *
  */
 public interface SmartLifecycle extends Lifecycle, Phased {
 

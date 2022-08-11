@@ -36,6 +36,7 @@ public class OrderComparatorTests {
 
 	@Test
 	public void compareOrderedInstancesBefore() {
+		// order越大越靠前，但是比较交换的时候，不是swith(第二个位置,第一个位置)????
 		assertEquals(-1, this.comparator.compare(new StubOrdered(100), new StubOrdered(2000)));
 	}
 
@@ -119,6 +120,7 @@ public class OrderComparatorTests {
 	}
 
 
+	// 实现了Orderd接口的类的优先级测试
 	private static final class StubOrdered implements Ordered {
 
 		private final int order;

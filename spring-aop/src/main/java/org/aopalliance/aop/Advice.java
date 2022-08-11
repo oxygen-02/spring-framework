@@ -22,6 +22,9 @@ package org.aopalliance.aop;
  *
  * @author Rod Johnson
  * @version $Id: Advice.java,v 1.1 2004/03/19 17:02:16 johnsonr Exp $
+ *
+ * 功能：标签接口（Advice的），用来描述"增强"，aop增强只是其中的一种
+ * 顶级接口（如JoinPoint---连接点）
  */
 public interface Advice {
 

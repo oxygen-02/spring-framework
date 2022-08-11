@@ -22,16 +22,28 @@ package org.springframework.context;
  * @author Mark Fisher
  * @author Juergen Hoeller
  * @since 3.0
+ *
+ * 策略接口为了处理Lifecycle beans
+ *
+ * 与 SmartLifecycle接口的区别是：
+ *      1、SmartLifecycle接口增加了"顺序"的含义，体现在"顺序"上.
+ *      2、LifecycleProcessor体现在"处理"上.
  */
 public interface LifecycleProcessor extends Lifecycle {
 
 	/**
 	 * Notification of context refresh, e.g. for auto-starting components.
+	 *
+	 * 最后还是会调用bean的start方法，为啥要有这个接口呢，当然是为了拓展啊，为了应用SmartLifecycle接口定义的功能啊
 	 */
 	void onRefresh();
 
 	/**
 	 * Notification of context close phase, e.g. for auto-stopping components.
+	 *
+	 * onClose也会唤醒Lifecycle bean 的stop方法.
+	 *
+	 * 那么为什么还要这个接口呢，为了拓展啊，比如为了有顺序的关闭（SmartLifecycle）
 	 */
 	void onClose();
 

@@ -137,6 +137,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	public static final String INFER_METHOD = "(inferred)";
 
 
+	// 为什么在xml注册aop时，使用了"class的全限定类名"后来也能被实例化
 	@Nullable
 	private volatile Object beanClass;
 
@@ -558,6 +559,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #AUTOWIRE_AUTODETECT
 	 * @see #AUTOWIRE_CONSTRUCTOR
 	 * @see #AUTOWIRE_BY_TYPE
+	 *
+	 * 就是在xml中配置的autowire的mode
 	 */
 	public int getResolvedAutowireMode() {
 		if (this.autowireMode == AUTOWIRE_AUTODETECT) {
@@ -567,6 +570,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 			Constructor<?>[] constructors = getBeanClass().getConstructors();
 			for (Constructor<?> constructor : constructors) {
 				if (constructor.getParameterCount() == 0) {
+
+					// 优先选用无参数构造器？？？
 					return AUTOWIRE_BY_TYPE;
 				}
 			}

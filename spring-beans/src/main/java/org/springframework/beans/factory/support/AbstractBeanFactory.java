@@ -1647,16 +1647,20 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @param beanName the canonical bean name
 	 * @param mbd the merged bean definition
 	 * @return the object to expose for the bean
+	 *
+	 * 功能：（从给定的bean实例中）获取对象。这个对象可能是1、bean instance本身或者2、它在做为FactoryBean情况下创建的对象
 	 */
 	protected Object getObjectForBeanInstance(
 			Object beanInstance, String name, String beanName, @Nullable RootBeanDefinition mbd) {
 
 		// Don't let calling code try to dereference the factory if the bean isn't a factory.
+		// 情况1：客户端要求获取工厂
 		if (BeanFactoryUtils.isFactoryDereference(name)) {
 			if (beanInstance instanceof NullBean) {
 				return beanInstance;
 			}
 			if (!(beanInstance instanceof FactoryBean)) {
+				// 但是你却不是工厂，抛出异常
 				throw new BeanIsNotAFactoryException(beanName, beanInstance.getClass());
 			}
 		}
@@ -1664,12 +1668,16 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// Now we have the bean instance, which may be a normal bean or a FactoryBean.
 		// If it's a FactoryBean, we use it to create a bean instance, unless the
 		// caller actually wants a reference to the factory.
+		// 情况2：如果不是FactoryBean直接返回
+		// 情况3：如果是FactoryBean，客户端想要的也是工厂，直接返回
 		if (!(beanInstance instanceof FactoryBean) || BeanFactoryUtils.isFactoryDereference(name)) {
 			return beanInstance;
 		}
 
+		// 情况4：是FactoryBean，但是客户端想要的不是工厂对象，此时就需要调用工厂对象的getObject方法返回工厂创建的对象
 		Object object = null;
 		if (mbd == null) {
+			// 工厂对象的缓存？？？，工厂创建的对象会加入到第1级缓存？？？
 			object = getCachedObjectForFactoryBean(beanName);
 		}
 		if (object == null) {
@@ -1680,6 +1688,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				mbd = getMergedLocalBeanDefinition(beanName);
 			}
 			boolean synthetic = (mbd != null && mbd.isSynthetic());
+			// 执行具体的创建工厂对象的方法
 			object = getObjectFromFactoryBean(factory, beanName, !synthetic);
 		}
 		return object;
