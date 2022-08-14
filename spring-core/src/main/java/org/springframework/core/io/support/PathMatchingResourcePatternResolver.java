@@ -275,30 +275,40 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	}
 
 	@Override
+	// 【核心类的核心方法】
 	public Resource[] getResources(String locationPattern) throws IOException {
 		Assert.notNull(locationPattern, "Location pattern must not be null");
+		// 如果是以"classpath*:"开头的
 		if (locationPattern.startsWith(CLASSPATH_ALL_URL_PREFIX)) {
 			// a class path resource (multiple resources for same name possible)
+			// 满足模式pattern要求的
 			if (getPathMatcher().isPattern(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()))) {
 				// a class path resource pattern
 				return findPathMatchingResources(locationPattern);
 			}
+			// 不满足的
 			else {
 				// all class path resources with the given name
+				// 借助jdk提供的classLoader 加载所有的resource。
+				// 上面的 findPathMatchingResources 后面也会通过递归调用到 else 方法
 				return findAllClassPathResources(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()));
 			}
 		}
+		// 不是以"classpath*:"开头的
 		else {
 			// Generally only look for a pattern after a prefix here,
 			// and on Tomcat only after the "*/" separator for its "war:" protocol.
 			int prefixEnd = (locationPattern.startsWith("war:") ? locationPattern.indexOf("*/") + 1 :
 					locationPattern.indexOf(':') + 1);
+			// 满足模式pattern要求的
 			if (getPathMatcher().isPattern(locationPattern.substring(prefixEnd))) {
 				// a file pattern
 				return findPathMatchingResources(locationPattern);
 			}
+			// 不满足的
 			else {
 				// a single resource with the given name
+				// 上面的 findPathMatchingResources 后面也会通过递归调用到 else 方法
 				return new Resource[] {getResourceLoader().getResource(locationPattern)};
 			}
 		}
@@ -492,9 +502,11 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * @see org.springframework.util.PathMatcher
 	 */
 	protected Resource[] findPathMatchingResources(String locationPattern) throws IOException {
+		// 获取根目录（如：locationPattern = "classpath*:aaa/b*b/*test.xml", 则 rootDirPath = "classpath*:aaa/"）
 		String rootDirPath = determineRootDir(locationPattern);
+		// 获取"子模式"（如：locationPattern = "classpath*:aaa/b*b/*test.xml", 则 subPattern = "b*b/*test.xml"）
 		String subPattern = locationPattern.substring(rootDirPath.length());
-		Resource[] rootDirResources = getResources(rootDirPath);
+		Resource[] rootDirResources = getResources(rootDirPath);    // 递归回去了。这里的 rootDirPath 是不满足模式的
 		Set<Resource> result = new LinkedHashSet<>(16);
 		for (Resource rootDirResource : rootDirResources) {
 			rootDirResource = resolveRootDirResource(rootDirResource);
@@ -513,6 +525,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 				result.addAll(doFindPathMatchingJarResources(rootDirResource, rootDirUrl, subPattern));
 			}
 			else {
+				// 殊途同归，基本无论 path 是以 "classpath*:" 或 "classpath:" 开头，都会走到这里
 				result.addAll(doFindPathMatchingFileResources(rootDirResource, subPattern));
 			}
 		}
@@ -534,11 +547,15 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * @return the part of the location that denotes the root directory
 	 * @see #retrieveMatchingFiles
 	 */
-	protected String determineRootDir(String location) {
+	// 为给定的location获取 根目录
+	// 看2个例子： classpath*:aaa/b*b/*test.xml           结果是：classpath*:aaa/
+	// classpath*:aaa/bbb/*test.xml                      结果是：classpath*:、bbb/
+	protected String determineRootDir(String location) {    // 其实就是找location中最短的没有模式的位置
 		int prefixEnd = location.indexOf(':') + 1;
 		int rootDirEnd = location.length();
 		while (rootDirEnd > prefixEnd && getPathMatcher().isPattern(location.substring(prefixEnd, rootDirEnd))) {
-			rootDirEnd = location.lastIndexOf('/', rootDirEnd - 2) + 1;
+			// 正常遍历的范围是[0, length - 1], 而这次是[0, length - 2] 相当于每次向左移动一个位置呗
+			rootDirEnd = location.lastIndexOf('/', rootDirEnd - 2) + 1;     // +1 是为了substring服务的
 		}
 		if (rootDirEnd == 0) {
 			rootDirEnd = prefixEnd;
@@ -695,6 +712,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * @see #retrieveMatchingFiles
 	 * @see org.springframework.util.PathMatcher
 	 */
+	// 在文件系统中查找所有资源文件，匹配了给定（Ant-style PathMatcher）模式的资源文件
 	protected Set<Resource> doFindPathMatchingFileResources(Resource rootDirResource, String subPattern)
 			throws IOException {
 
@@ -728,6 +746,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * @see #retrieveMatchingFiles
 	 * @see org.springframework.util.PathMatcher
 	 */
+	// 在文件系统中查找所有（匹配了给定 Ant-style PathMatcher 模式的）资源
 	protected Set<Resource> doFindMatchingFileSystemResources(File rootDir, String subPattern) throws IOException {
 		if (logger.isTraceEnabled()) {
 			logger.trace("Looking for matching resources in directory tree [" + rootDir.getPath() + "]");
@@ -749,6 +768,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * @return a mutable Set of matching Resource instances
 	 * @throws IOException if directory contents could not be retrieved
 	 */
+	// 获取匹配path pattern 的文件列表
 	protected Set<File> retrieveMatchingFiles(File rootDir, String pattern) throws IOException {
 		if (!rootDir.exists()) {
 			// Silently skip non-existing directories.
@@ -770,7 +790,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 						"] because the application is not allowed to read the directory");
 			}
 			return Collections.emptySet();
-		}
+		}// 到这里就是存在且是目录且可读
 		String fullPattern = StringUtils.replace(rootDir.getAbsolutePath(), File.separator, "/");
 		if (!pattern.startsWith("/")) {
 			fullPattern += "/";
@@ -790,6 +810,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * @param result the Set of matching File instances to add to
 	 * @throws IOException if directory contents could not be retrieved
 	 */
+	// 递归获取匹配pattern的文件
 	protected void doRetrieveMatchingFiles(String fullPattern, File dir, Set<File> result) throws IOException {
 		if (logger.isTraceEnabled()) {
 			logger.trace("Searching directory [" + dir.getAbsolutePath() +
@@ -805,9 +826,11 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 					}
 				}
 				else {
+					// 如果是目录且满足模式就递归了
 					doRetrieveMatchingFiles(fullPattern, content, result);
 				}
 			}
+			// 模式匹配满足
 			if (getPathMatcher().match(fullPattern, currPath)) {
 				result.add(content);
 			}

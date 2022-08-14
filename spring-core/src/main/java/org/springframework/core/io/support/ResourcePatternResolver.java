@@ -51,6 +51,7 @@ import org.springframework.core.io.ResourceLoader;
  * @see org.springframework.context.ApplicationContext
  * @see org.springframework.context.ResourceLoaderAware
  */
+// 对 ResourceLoader 接口的拓展，拓展了一个 "classpath*:" 前缀。
 public interface ResourcePatternResolver extends ResourceLoader {
 
 	/**

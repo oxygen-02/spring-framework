@@ -44,6 +44,7 @@ public interface PathMatcher {
 	 * @param path the path String to check
 	 * @return {@code true} if the given {@code path} represents a pattern
 	 */
+	// path 是否代表了一个模式
 	boolean isPattern(String path);
 
 	/**
@@ -54,6 +55,8 @@ public interface PathMatcher {
 	 * @return {@code true} if the supplied {@code path} matched,
 	 * {@code false} if it didn't
 	 */
+	// pattern 匹配模式
+	// path 要测试的字符串
 	boolean match(String pattern, String path);
 
 	/**
