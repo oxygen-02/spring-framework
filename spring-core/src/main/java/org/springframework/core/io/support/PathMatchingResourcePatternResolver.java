@@ -201,6 +201,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	}
 
 
+	// PathMatchingResourcePatternResolver 默认的资源加载 是 DefaultResourceLoader
 	private final ResourceLoader resourceLoader;
 
 	private PathMatcher pathMatcher = new AntPathMatcher();

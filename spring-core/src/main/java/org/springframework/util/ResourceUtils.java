@@ -267,6 +267,7 @@ public abstract class ResourceUtils {
 	 * @param url the URL to check
 	 * @return whether the URL has been identified as a file system URL
 	 */
+	// 是文件系统？如果是就用文件系统，如果不是就用 java.net.URL
 	public static boolean isFileURL(URL url) {
 		String protocol = url.getProtocol();
 		return (URL_PROTOCOL_FILE.equals(protocol) || URL_PROTOCOL_VFSFILE.equals(protocol) ||

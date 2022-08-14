@@ -43,6 +43,7 @@ import org.springframework.util.ResourceUtils;
  * @author Juergen Hoeller
  * @since 5.0.2
  */
+// 是 UrlResource 的子类，假定是文件解析（也就是本地文件系统）
 public class FileUrlResource extends UrlResource implements WritableResource {
 
 	@Nullable
