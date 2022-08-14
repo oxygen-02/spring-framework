@@ -34,6 +34,7 @@ import org.springframework.lang.Nullable;
  * @param <V> the value type
  */
 @SuppressWarnings("serial")
+// 对xml配置文件解析的map元素的封装对象
 public class ManagedMap<K, V> extends LinkedHashMap<K, V> implements Mergeable, BeanMetadataElement {
 
 	@Nullable

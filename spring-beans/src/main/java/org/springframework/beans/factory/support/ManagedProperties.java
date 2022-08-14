@@ -31,6 +31,7 @@ import org.springframework.lang.Nullable;
  * @since 2.0
  */
 @SuppressWarnings("serial")
+// 对xml配置文件解析的 prop 的封装类（其他的map、list、set都有封装类）
 public class ManagedProperties extends Properties implements Mergeable, BeanMetadataElement {
 
 	@Nullable

@@ -27,6 +27,7 @@ import org.springframework.util.Assert;
  * @since 3.0
  */
 @SuppressWarnings("serial")
+// 对xml配置文件解析的 array 参数的封装
 public class ManagedArray extends ManagedList<Object> {
 
 	/** Resolved element type for runtime creation of the target array. */

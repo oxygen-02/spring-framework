@@ -40,6 +40,7 @@ import org.springframework.util.ObjectUtils;
  * @see BeanWrapper
  */
 @SuppressWarnings("serial")
+// 对xml配置文件解析的 property 的封装
 public class PropertyValue extends BeanMetadataAttributeAccessor implements Serializable {
 
 	private final String name;

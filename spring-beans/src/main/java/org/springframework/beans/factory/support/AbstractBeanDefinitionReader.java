@@ -51,6 +51,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	// 核心容器类引用（如：private final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this); 传递进来的）
 	private final BeanDefinitionRegistry registry;
 
 	@Nullable

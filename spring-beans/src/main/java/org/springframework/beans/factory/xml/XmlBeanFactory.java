@@ -54,7 +54,8 @@ import org.springframework.core.io.Resource;
 @SuppressWarnings({"serial", "all"})
 public class XmlBeanFactory extends DefaultListableBeanFactory {
 
-	private final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this);
+	// XmlBeanFactory 是对 DefaultListableBeanFactory 的增强，唯一多了的功能就是XmlBeanDefinitionReader（把xml解析为BeanDefinition）
+	private final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this);   // 把核心容器this传进去了
 
 
 	/**

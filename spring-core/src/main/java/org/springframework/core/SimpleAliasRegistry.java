@@ -44,6 +44,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/** Map from alias to canonical name. */
+	// 存储别名的 map 集合。 【key = alias; value = beanName】。
 	private final Map<String, String> aliasMap = new ConcurrentHashMap<>(16);
 
 
@@ -52,6 +53,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		Assert.hasText(name, "'name' must not be empty");
 		Assert.hasText(alias, "'alias' must not be empty");
 		synchronized (this.aliasMap) {
+			// 如果alias 与 beanName 相等，则移除alias避免重复
 			if (alias.equals(name)) {
 				this.aliasMap.remove(alias);
 				if (logger.isDebugEnabled()) {
@@ -74,6 +76,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 								registeredName + "' with new target name '" + name + "'");
 					}
 				}
+				// 检测aliasMap 与 即将put的[alias,name]是否会产生"环"，有一个小算法在里面
 				checkForAliasCircle(name, alias);
 				this.aliasMap.put(alias, name);
 				if (logger.isTraceEnabled()) {
@@ -93,9 +96,16 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
 	/**
 	 * Determine whether the given name has the given alias registered.
-	 * @param name the name to check
-	 * @param alias the alias to look for
+	 * @param name the name to check        原始的alias
+	 * @param alias the alias to look for   原始的beanName
 	 * @since 4.2.1
+	 */
+	/**
+	 * 是一个小的算法：其实就是检测aliasMap中存储的entry对 是否与 即将put的entry对 是否会产生"环"。如果不产生那直接put进去就好了，如果会产生就要抛出异常。
+	 * 注意：
+	 *  1、hasAlias的2个参数其实跟 put 的2个参数刚好反了
+	 *  2、之所以 hasAlias 递归 是检测是否存在"间接"的"环"
+	 * 举例：假设aliasMap中存在[key=user, value=userName]，而即将put进map的是[key=userName, value=user]，一旦允许put那么在aliasMap就会形成死循环，无法真正的beanName。
 	 */
 	public boolean hasAlias(String name, String alias) {
 		for (Map.Entry<String, String> entry : this.aliasMap.entrySet()) {
