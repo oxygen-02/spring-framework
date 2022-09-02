@@ -37,6 +37,9 @@ import org.springframework.util.ObjectUtils;
  * @see RootBeanDefinition
  * @see ChildBeanDefinition
  */
+// GenericBeanDefinition 是 一站式标准的bean定义，封装了xml解析的原始参数
+// 它允许子类添加构造器和属性
+// BeanDefinitionHolder 是对 GenericBeanDefinition的封装（还封装了name、aliases属性）
 @SuppressWarnings("serial")
 public class GenericBeanDefinition extends AbstractBeanDefinition {
 

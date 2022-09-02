@@ -520,7 +520,7 @@ public class BeanDefinitionParserDelegate {
 	 * Parse the bean definition itself, without regard to name or aliases. May return
 	 * {@code null} if problems occurred during the parsing of the bean definition.
 	 */
-	// 解析xml的bean元素，据此生成GenericBeanDefinition
+	// 解析xml的bean元素，据此生成 GenericBeanDefinition
 	@Nullable
 	public AbstractBeanDefinition parseBeanDefinitionElement(
 			Element ele, String beanName, @Nullable BeanDefinition containingBean) {
