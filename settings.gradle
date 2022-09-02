@@ -20,7 +20,8 @@ include "spring-webmvc"
 include "spring-webflux"
 include "spring-websocket"
 include "spring-framework-bom"
-include 'firefish-spring-test'
+include "firefish-spring-test"
+include 'spring-source-code-deep-analysis'
 
 // Exposes gradle buildSrc for IDE support
 include "buildSrc"
