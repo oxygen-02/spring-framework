@@ -29,7 +29,7 @@ import org.springframework.lang.Nullable;
 
 /**
  * {@link PathMatcher} implementation for Ant-style path patterns.
- *
+ * 介绍了ant-style形式的模式，主要是4个通配符: ?、*、**、{spring:[a-z]+}
  * <p>Part of this mapping code has been kindly borrowed from <a href="https://ant.apache.org">Apache Ant</a>.
  *
  * <p>The mapping matches URLs using the following rules:<br>

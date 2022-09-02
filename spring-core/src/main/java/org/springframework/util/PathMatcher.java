@@ -21,6 +21,7 @@ import java.util.Map;
 
 /**
  * Strategy interface for {@code String}-based path matching.
+ * 路径匹配的策略接口，有2个重点方法：isPattern(是否是模式)、match(是否匹配)
  *
  * <p>Used by {@link org.springframework.core.io.support.PathMatchingResourcePatternResolver},
  * {@link org.springframework.web.servlet.handler.AbstractUrlHandlerMapping},
