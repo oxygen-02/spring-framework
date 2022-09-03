@@ -29,6 +29,7 @@
 	<!-- lookup用法 end -->
 
 	<!-- replaced-method用法 start -->
+	<!-- replaced-method 是指"方法的替换"而 lookup-method 是指"bean的替换" -->
 	<bean id="testChangeMethod" name="aliasName1,aliasName2"
 		class="com.firefish.springsourcecodedeepanalysis.replacemethod.TestChangeMethod">
 		<replaced-method name="changeMe"
