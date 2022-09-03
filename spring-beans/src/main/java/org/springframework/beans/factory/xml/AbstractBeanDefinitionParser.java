@@ -59,6 +59,7 @@ public abstract class AbstractBeanDefinitionParser implements BeanDefinitionPars
 
 	@Override
 	@Nullable
+	// 回调 parse 方法完成"xml自定义元素"的解析
 	public final BeanDefinition parse(Element element, ParserContext parserContext) {
 		AbstractBeanDefinition definition = parseInternal(element, parserContext);
 		if (definition != null && !parserContext.isNested()) {
@@ -76,7 +77,9 @@ public abstract class AbstractBeanDefinitionParser implements BeanDefinitionPars
 						aliases = StringUtils.trimArrayElements(StringUtils.commaDelimitedListToStringArray(name));
 					}
 				}
+				// 自定义的配置类也是封装为BeanDefinitionHolder
 				BeanDefinitionHolder holder = new BeanDefinitionHolder(definition, id, aliases);
+				// 完成注册
 				registerBeanDefinition(holder, parserContext.getRegistry());
 				if (shouldFireEvents()) {
 					BeanComponentDefinition componentDefinition = new BeanComponentDefinition(holder);

@@ -201,7 +201,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				}
 			}
 		}
-		// 如果不是默认的命名空间
+		// 如果不是默认的命名空间（自定义标签解析的入口）
 		else {
 			delegate.parseCustomElement(root);
 		}
