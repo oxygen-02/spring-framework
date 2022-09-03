@@ -34,6 +34,7 @@ import org.springframework.lang.Nullable;
  * @author Juergen Hoeller
  * @since 2.0
  */
+// 处理标准 BeanDefinition 中 propertyValues 中众多拓展信息中的【内部类定义、内部类引用？】
 public class BeanComponentDefinition extends BeanDefinitionHolder implements ComponentDefinition {
 
 	private BeanDefinition[] innerBeanDefinitions;

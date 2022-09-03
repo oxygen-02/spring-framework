@@ -175,6 +175,8 @@ public abstract class PropertiesLoaderUtils {
 		if (classLoaderToUse == null) {
 			classLoaderToUse = ClassUtils.getDefaultClassLoader();
 		}
+
+		// 使用类加载器去 resourceName 路径加载文件
 		Enumeration<URL> urls = (classLoaderToUse != null ? classLoaderToUse.getResources(resourceName) :
 				ClassLoader.getSystemResources(resourceName));
 		Properties props = new Properties();
