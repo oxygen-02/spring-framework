@@ -132,7 +132,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// this behavior emulates a stack of delegates without actually necessitating one.
 		BeanDefinitionParserDelegate parent = this.delegate;
 
-		// 创建"委托类"来解析xml，并解析了 <beans> 元素
+		// 创建"委托类"来解析xml，并解析了root元素，即 <beans>
 		this.delegate = createDelegate(getReaderContext(), root, parent);
 
 		// root节点是否是默认的命名空间
@@ -191,7 +191,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				if (node instanceof Element) {
 					Element ele = (Element) node;
 					if (delegate.isDefaultNamespace(ele)) {
-						// 走默认：<bean />
+						// 走默认：如<bean />、<beans/>、<import/>、<alias/>
 						parseDefaultElement(ele, delegate);
 					}
 					else {
@@ -249,6 +249,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// Discover whether the location is an absolute or relative URI
 		boolean absoluteLocation = false;
 		try {
+			// 是否是绝对路径（有具体协议schema、有classpath*:、classpath:的是绝对路径）
 			absoluteLocation = ResourcePatternUtils.isUrl(location) || ResourceUtils.toURI(location).isAbsolute();
 		}
 		catch (URISyntaxException ex) {
