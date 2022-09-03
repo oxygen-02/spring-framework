@@ -556,7 +556,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 		int rootDirEnd = location.length();
 		while (rootDirEnd > prefixEnd && getPathMatcher().isPattern(location.substring(prefixEnd, rootDirEnd))) {
 			// 正常遍历的范围是[0, length - 1], 而这次是[0, length - 2] 相当于每次向左移动一个位置呗
-			rootDirEnd = location.lastIndexOf('/', rootDirEnd - 2) + 1;     // +1 是为了substring服务的
+			rootDirEnd = location.lastIndexOf('/', rootDirEnd - 2) + 1;     // +1 是为了substring服务的。-2+1是为了加速匹配
 		}
 		if (rootDirEnd == 0) {
 			rootDirEnd = prefixEnd;
