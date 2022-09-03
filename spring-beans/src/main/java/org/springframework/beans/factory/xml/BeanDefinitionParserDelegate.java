@@ -701,6 +701,8 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Parse the meta elements underneath the given element, if any.
+	 *
+	 * meta 元素中的属性可以通过： BeanDefinition的getAttribute方法获取到
 	 */
 	public void parseMetaElements(Element ele, BeanMetadataAttributeAccessor attributeAccessor) {
 		NodeList nl = ele.getChildNodes();
@@ -831,6 +833,9 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Parse a constructor-arg element.
+	 * 这块其实逻辑不复杂，还是封装思想，都是封装到 ConstructorArgumentValues.ValueHolder 对象中。
+	 * 1、如果指定了index则添加到BeanDefinition的【addIndexedArgumentValue】中
+	 * 2、否则添加到BeanDefinition的【addGenericArgumentValue】中
 	 */
 	public void parseConstructorArgElement(Element ele, BeanDefinition bd) {
 		String indexAttr = ele.getAttribute(INDEX_ATTRIBUTE);
