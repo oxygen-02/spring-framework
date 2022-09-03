@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mytagName="http://www.kdyzm.org/schema/user"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.kdyzm.org/schema/user	http://www.kdyzm.org/schema/user.xsd"
+>
+
+<!--	<import resource="classpath:test.xml"/>-->
+	<import resource="classpath:aaa/b*b/*test.xml"/>
+
+	<bean id="myTestBean"
+		class="com.firefish.springsourcecodedeepanalysis.beans.MyTestBean">
+		<description></description>
+		<constructor-arg index="0" value="abc"></constructor-arg>
+	</bean>
+
+	<!-- lookup用法 start -->
+	<bean id="teacher"
+		  class="com.firefish.springsourcecodedeepanalysis.lookup.Teacher"></bean>
+	<bean id="student"
+		  class="com.firefish.springsourcecodedeepanalysis.lookup.Student"/>
+
+	<bean id="getBeanTest"
+		class="com.firefish.springsourcecodedeepanalysis.lookup.GetBeanTest">
+		<lookup-method name="getBean" bean="student" />
+<!--		<lookup-method bean="teacher" name="getBean" />-->
+	</bean>
+	<!-- lookup用法 end -->
+
+	<!-- replaced-method用法 start -->
+	<bean id="testChangeMethod" name="aliasName1,aliasName2"
+		class="com.firefish.springsourcecodedeepanalysis.replacemethod.TestChangeMethod">
+		<replaced-method name="changeMe"
+			replacer="methodReplacer"></replaced-method>
+	</bean>
+	<bean id="methodReplacer"
+		class="com.firefish.springsourcecodedeepanalysis.replacemethod.TestChangeMethod"></bean>
+	<!-- replaced-method用法 end -->
+
+
+	<!-- 别名设置 start 为testChangeMethod设置aliasName3别名 -->
+	<alias name="testChangeMethod" alias="aliasName3" />
+	<!-- 别名设置 end -->
+
+	<!-- 自定义标签测试start -->
+	<mytagName:user id="testBean" userName="kdyzm"
+		email="kdyzm@foxmail.com"></mytagName:user>
+	<!-- 自定义标签测试end -->
+
+	<!-- factoryBean测试start:失败 -->
+	<bean id="car"
+		class="com.firefish.springsourcecodedeepanalysis.factorybean.CarFactoryBean">
+		<property name="carInfo" value="超级跑车,400,2000000"></property>
+	</bean>
+	<!-- factoryBean测试end -->
+</beans>
