@@ -101,7 +101,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 				Object object = this.factoryBeanObjectCache.get(beanName);
 				// 1、缓存是否存在
 				if (object == null) {
-					// 1.1、执行工厂的getObject方法
+					// 1.1、执行工厂的getObject方法（深入FactoryBean的getObject方法）
 					object = doGetObjectFromFactoryBean(factory, beanName);
 					// Only post-process and store if not put there already during getObject() call above
 					// (e.g. because of circular reference processing triggered by custom getBean calls)
@@ -173,7 +173,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 				}
 			}
 			else {
-				// 执行FactoryBean的getObject方法。
+				// 执行FactoryBean的getObject方法。（最终执行了FactoryBean的getObject方法）
 				/**
 				 * 注意：跟函数式接口ObjectFactory的定义非常相似（在getBean方法中出现，getObject的作用是定义模板方法中的特殊操作）
 				 * [T getObject() throws BeansException;] 与 [T getObject() throws Exception;]
