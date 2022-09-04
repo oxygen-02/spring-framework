@@ -338,6 +338,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							throw ex;
 						}
 					});
+					// FactoryBean起作用的入口（因为这里可能得到的bean还是FactoryBean，我们还需要调用它的getObject方法获取到具体的bean）
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
 
@@ -1662,6 +1663,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @return the object to expose for the bean
 	 *
 	 * 功能：（从给定的bean实例中）获取对象。这个对象可能是1、bean instance本身或者2、它在做为FactoryBean情况下创建的对象
+	 * 一系列判断
 	 */
 	protected Object getObjectForBeanInstance(
 			Object beanInstance, String name, String beanName, @Nullable RootBeanDefinition mbd) {
@@ -1701,7 +1703,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				mbd = getMergedLocalBeanDefinition(beanName);
 			}
 			boolean synthetic = (mbd != null && mbd.isSynthetic());
-			// 执行具体的创建工厂对象的方法
+			// 执行具体的创建工厂对象的方法（深入FactoryBean的getObject方法）
 			object = getObjectFromFactoryBean(factory, beanName, !synthetic);
 		}
 		return object;
