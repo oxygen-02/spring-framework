@@ -193,14 +193,17 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					if (singletonObject == null) {
 						singletonObject = this.earlySingletonObjects.get(beanName);
 						if (singletonObject == null) {
+
+							// 从第三极缓存中查找
 							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 							if (singletonFactory != null) {
 
 								// 调用工厂方法【1、工厂模式下会调用；2、循环依赖下会调用】
+								// ObjectFactory最终起作用了，调用了ObjectFactory的getObject方法
 								singletonObject = singletonFactory.getObject();
 
-								// 调用了工厂方法后就会从3级--->2级
 								this.earlySingletonObjects.put(beanName, singletonObject);
+								// 从singletonFactories中remove掉这个ObjectFactory
 								this.singletonFactories.remove(beanName);
 							}
 						}
