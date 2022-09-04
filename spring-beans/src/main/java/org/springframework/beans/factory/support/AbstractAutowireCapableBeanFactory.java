@@ -593,7 +593,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				logger.trace("Eagerly caching bean '" + beanName +
 						"' to allow for resolving potential circular references");
 			}
-			// 如果出现"循环依赖"，需要把后面的方法加入到第3级缓存中（这里只是把方法加入到了缓存并没有去执行。在属性依赖的时候会去执行getBean方法，最终会调用到这里）
 			/**
 			 * 举例：A依赖属性b，B依赖属性a
 			 * 过程：创建beanA--->开始创建bean（记录beanNameA）
@@ -613,6 +612,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			 * 答：通过查看第3级缓存的代码，发现多执行了一个SmartInstantiationAwareBeanPostProcessor类型的后置处理器
 			 * 正是因为这个后置处理器会改变原有的bean（如AOP）如果没有3级缓存会导致注入到属性中的bean是原始的bean，而不是经过后置处理器增强过的bean。
 			 */
+			// 如果出现"循环依赖"，需要把后面的方法加入到第3级缓存中（这里只是把方法加入到了缓存并没有去执行。在属性依赖的时候会去执行getBean方法，最终会调用到这里）
+			// ObjectFactory加入到第三级缓存（入口）
 			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
 
