@@ -14,3 +14,10 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.32'
     implementation 'ch.qos.logback:logback-classic:1.1.7'
 }
+sourceSets {
+    main{
+        resources {
+            srcDirs 'src/main/java' //可以将java目录下的所有非.java资源打包到classes下
+        }
+    }
+}
