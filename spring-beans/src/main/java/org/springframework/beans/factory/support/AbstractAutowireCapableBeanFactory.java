@@ -479,14 +479,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (logger.isTraceEnabled()) {
 			logger.trace("Creating instance of bean '" + beanName + "'");
 		}
-		// RootBeanDefinition就是spring最终使用的BeanDefinition
+		// RootBeanDefinition就是spring最终使用的BeanDefinition（GenericBeanDefinition 转 BeanDefinitionHolder 转 RootBeanDefinitioin）
 		RootBeanDefinition mbdToUse = mbd;
 
 		// Make sure bean class is actually resolved at this point, and
 		// clone the bean definition in case of a dynamically resolved Class
 		// which cannot be stored in the shared merged bean definition.
-		// 确保bean class在这时已经被解析了。如xml注册aop时注册的是bean的全限定字符串，在这里通过反射解析为class
-		// BD被设置为class的字符串时，会在这里就被实例化
+		// 其实就是检查一下如xml中配置的bean的全限定字符串是否真的存在这个类。
 		Class<?> resolvedClass = resolveBeanClass(mbd, beanName);
 		if (resolvedClass != null && !mbd.hasBeanClass() && mbd.getBeanClassName() != null) {
 			mbdToUse = new RootBeanDefinition(mbd);
@@ -551,6 +550,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			throws BeanCreationException {
 
 		// Instantiate the bean.
+		// 【循环依赖之关键步骤2：实例化bean（createBeanInstance方法调用构造器）】
 		// 实例化bean
 		BeanWrapper instanceWrapper = null;
 		if (mbd.isSingleton()) {
@@ -586,6 +586,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// 急切的缓存singleton来使有能力解决循环引用
 		// 任何bean的初始化都会吧方式加入到第3级缓存（singletonFactory）
+		/**
+		 * 是否需要提早曝光： 单例&允许循环依赖&当期bean正在创建中， 检测循环依赖。
+		 */
 		boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences &&
 				isSingletonCurrentlyInCreation(beanName));
 		if (earlySingletonExposure) {
@@ -594,13 +597,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 						"' to allow for resolving potential circular references");
 			}
 			/**
+			 * Spring 解决"循环依赖"在bean生命周期中的的关键几部：
 			 * 举例：A依赖属性b，B依赖属性a
-			 * 过程：创建beanA--->开始创建bean（记录beanNameA）
-			 * 				    addSingletonFactory
-			 * 				    populateBean（填充属性b）---->开始创建beanB（记录beanNameB）
-			 * 									            addSingletonFactory
-			 * 									            populateBean（填充属性a）--->【getBean】（最终会调用到a的addSingletonFactory方法，并把a从3级移动到2级）
-			 *											    ...结束beanB的创建(移除bean的创建状态，移动到1级缓存)
+			 * 过程：创建beanA--->从缓存中查找bean（getSingleton方法）
+			 *                  doCreateBean 之前记录"正在加载bean"（beforeSingletonCreation方法）
+			 *                  实例化bean（createBeanInstance方法调用构造器）
+			 * 				    加入到第三级缓存（addSingletonFactory方法）
+			 * 				    populateBean（填充属性b）---------------------------->从缓存中查找bean（getSingleton方法）
+			 * 				                                                        doCreateBean 之前记录"正在加载bean"（beforeSingletonCreation方法）
+			 * 				                                                        开始实例化beanB（记录beanNameB）
+			 * 									                                    加入到第三级缓存（addSingletonFactory方法）
+			 * 									                                    populateBean（填充属性a）--->【getBean，也会调用getSingleton去缓存中找】（最终会调用到a的addSingletonFactory方法，并把a从3级移动到2级）
+			 *											                            ...结束beanB的创建(移除bean的创建状态，移动到1级缓存)
 			 *				    ...结束beanA的创建(移除bean的创建状态，移动到1级缓存)
 			 *
 			 */
@@ -614,6 +622,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			 */
 			// 如果出现"循环依赖"，需要把后面的方法加入到第3级缓存中（这里只是把方法加入到了缓存并没有去执行。在属性依赖的时候会去执行getBean方法，最终会调用到这里）
 			// ObjectFactory加入到第三级缓存（入口）
+			// 【循环依赖之关键步骤4：加入到第三级缓存（addSingletonFactory方法）】
 			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
 
@@ -621,6 +630,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object exposedObject = bean;
 		try {
 			// 属性填充
+			// 【循环依赖之关键步骤5：属性填充、初始化、后置处理器。（在getSingleton方法中如果出现"在正在创建的bean集合中发现了当前beanName"循环依赖条件，则会调用到第三级缓存的getObject方法完成半初始化的bean的创建，然后把这个半初始化的bean放入到第二级缓存。
+			// 为什么要放入第二级缓存？？？因为让半初始化的bean有一个存放的地方，防止多次创建）】
 			populateBean(beanName, mbd, instanceWrapper);
 			// 初始化
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
@@ -634,7 +645,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 						mbd.getResourceDescription(), beanName, "Initialization of bean failed", ex);
 			}
 		}
-
 		if (earlySingletonExposure) {
 			// 因为这里的allowEarlyReference=false，所以这里只会从1、2级缓存中获取。
 			// 而且正常情况下，bean都是从3级直接到1级缓存中，不会经历第2级缓存。
@@ -1130,8 +1140,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 				Class<?> targetType = determineTargetType(beanName, mbd);
 				if (targetType != null) {
+					// 1、实例化前的后处理器应用（只应用InstantiationAwareBeanPostProcessor后处理器）
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
 					if (bean != null) {
+						// 2、实例化后的后处理器应用（应用所有的后处理器）
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
 					}
 				}
@@ -1155,6 +1167,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	@Nullable	// BeanNameAutoProxyCreator 可以创建代理对象，它是什么时候注册的
 	protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
 		for (BeanPostProcessor bp : getBeanPostProcessors()) {
+			// 对 InstantiationAwareBeanPostProcessor 后置处理器"特殊处理"
 			if (bp instanceof InstantiationAwareBeanPostProcessor) {
 				InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
 				Object result = ibp.postProcessBeforeInstantiation(beanClass, beanName);
