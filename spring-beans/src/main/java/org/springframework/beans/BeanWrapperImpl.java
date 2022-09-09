@@ -60,12 +60,17 @@ import org.springframework.util.ReflectionUtils;
  * @see BeanWrapper
  * @see PropertyEditorRegistrySupport
  */
+// 是 BeanWrapper 的实现，应该要适应所有的典型应用。缓存内省结果为了效率
+// 自动注册了[org.springframework.beans.propertyeditors]包的"属性编辑器"
+// 自定义的可以通过[registerCustomEditor]方法注册
+// 问题：为什么每个bean都注册一遍，不能通用起来？？？
 public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements BeanWrapper {
 
 	/**
 	 * Cached introspections results for this object, to prevent encountering
 	 * the cost of JavaBeans introspection every time.
 	 */
+	// 缓存内省结果
 	@Nullable
 	private CachedIntrospectionResults cachedIntrospectionResults;
 
