@@ -58,6 +58,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * @author Chris Beams
  * @since 2.0
  */
+// 作用：通常用于在bean创建过程中，对属性进行"填充"
 public class ResourceEditorRegistrar implements PropertyEditorRegistrar {
 
 	private final PropertyResolver propertyResolver;

@@ -89,6 +89,7 @@ import org.springframework.util.ClassUtils;
  * @see java.beans.PropertyEditorSupport#setAsText
  * @see java.beans.PropertyEditorSupport#setValue
  */
+// 核心类：是"属性编辑注册"的基类。提供管理默认编辑器和自定义编辑器，主要服务对象是BeanWrapperImpl
 public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 
 	@Nullable
@@ -98,12 +99,15 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 
 	private boolean configValueEditorsActive = false;
 
+	// 默认自带的常用的"属性编辑器"
 	@Nullable
 	private Map<Class<?>, PropertyEditor> defaultEditors;
 
+	// ResourceEditorRegistrar 注册用的？？？ 所以为啥要搞这么多个"属性编辑器"存储呢。
 	@Nullable
 	private Map<Class<?>, PropertyEditor> overriddenDefaultEditors;
 
+	// 自定义的属性编辑器（其实通过多个步骤才注册到这里，体现了封装思想。CustomEditorConfigurer ---> ）
 	@Nullable
 	private Map<Class<?>, PropertyEditor> customEditors;
 

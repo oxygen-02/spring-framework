@@ -1174,6 +1174,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Can be overridden in subclasses.
 	 * @param bw the BeanWrapper to initialize
 	 */
+	// 用自定义的属性编辑器 初始化给定的 BeanWrapper. 被调用在create bean or populate bean
+	// 属性编辑器入口
 	protected void initBeanWrapper(BeanWrapper bw) {
 		bw.setConversionService(getConversionService());
 		registerCustomEditors(bw);
@@ -1193,6 +1195,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		if (registrySupport != null) {
 			registrySupport.useConfigValueEditors();
 		}
+
+		// 从容器中把 propertyEditorRegistrars 拿出来，然后在每个bean中都register一遍？？？
 		if (!this.propertyEditorRegistrars.isEmpty()) {
 			for (PropertyEditorRegistrar registrar : this.propertyEditorRegistrars) {
 				try {
@@ -1217,6 +1221,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 			}
 		}
+		// 把自定义的"属性编辑器"注册到"属性编辑注册支持类"，体现了封装思想，各司其职
 		if (!this.customEditors.isEmpty()) {
 			this.customEditors.forEach((requiredType, editorClass) ->
 					registry.registerCustomEditor(requiredType, BeanUtils.instantiateClass(editorClass)));
@@ -1669,7 +1674,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			Object beanInstance, String name, String beanName, @Nullable RootBeanDefinition mbd) {
 
 		// Don't let calling code try to dereference the factory if the bean isn't a factory.
-		// 情况1：客户端要求获取工厂
+		// 检查：客户端要求获取工厂但是实例却不是工厂
 		if (BeanFactoryUtils.isFactoryDereference(name)) {
 			if (beanInstance instanceof NullBean) {
 				return beanInstance;
