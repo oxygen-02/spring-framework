@@ -529,44 +529,53 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
 			// Prepare this context for refreshing.
-			// 1、准备刷新容器
+			// 1、初始化前的准备工作，例如对系统属性或者环境变量进行准备和验证
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
-			// 2、获取核心容器DefaultListableBeanFactory
+			// 2、初始化BeanFactory，并进行xml文件的读取（这里就完全获取了XmlBeanFactory的全部功能，后续都是拓展）
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
-			// 3、为了bean factory可以使用做准备
+			// 3、对BeanFactory进行各种功能填充
 			prepareBeanFactory(beanFactory);
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				// 4、子类覆盖做额外处理
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
+				// 5、激活各种BeanFactory处理器
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
+				// 6、注册拦截bean创建的bean处理器，这里只是注册，真正的调用是getBean的时候。
+				// 【重难点】：注意和BeanFactory_PostProcessor、BeanFactory、FactoryBean的区别
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
+				// 7、为应用初始化message源，为了"国际化"
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
-				// 初始化事件多播器
+				// 8、初始化事件多播器，并放入"applicationEventMulticaster"中
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				// 9、留给子类来初始化其他特殊的bean
 				onRefresh();
 
 				// Check for listener beans and register them.
+				// 10、在所有注册的bean中，查找Listener bean，注册到消息广播器中
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				// 11、实例化所有的单例bean
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
+				// 12、完成刷新过程，处理生命周期处理器lifecycleProcessor刷新过程，同时发出ContextRefreshEvent通知别人
 				finishRefresh();
 			}
 
