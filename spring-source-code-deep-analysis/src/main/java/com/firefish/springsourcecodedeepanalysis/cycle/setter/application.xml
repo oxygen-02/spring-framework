@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mytagName="http://www.kdyzm.org/schema/user"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.kdyzm.org/schema/user	http://www.kdyzm.org/schema/user.xsd">
+	<bean id="bean_1"
+		class="com.firefish.springsourcecodedeepanalysis.cycle.setter.Bean_1"
+		scope="singleton">
+		<property name="prop_2" ref="bean_2"></property>
+		<property name="prop_3" ref="bean_3"></property>
+	</bean>
+
+	<bean id="bean_2"
+		class="com.firefish.springsourcecodedeepanalysis.cycle.setter.Bean_2"
+		scope="singleton">
+		<property name="prop_1" ref="bean_1"></property>
+	</bean>
+
+	<bean id="bean_3"
+		class="com.firefish.springsourcecodedeepanalysis.cycle.setter.Bean_3"
+		scope="singleton">
+		<property name="prop_1" ref="bean_1"></property>
+	</bean>
+</beans>
