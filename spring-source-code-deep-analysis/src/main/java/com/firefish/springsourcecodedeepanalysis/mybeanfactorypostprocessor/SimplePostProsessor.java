@@ -1,4 +1,4 @@
-package com.firefish.springsourcecodedeepanalysis.mybeanpostprocessor;
+package com.firefish.springsourcecodedeepanalysis.mybeanfactorypostprocessor;
 
 public class SimplePostProsessor {
 	private String connectionString;

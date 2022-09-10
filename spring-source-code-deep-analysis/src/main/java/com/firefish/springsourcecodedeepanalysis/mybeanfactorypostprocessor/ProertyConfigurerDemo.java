@@ -1,4 +1,4 @@
-package com.firefish.springsourcecodedeepanalysis.mybeanpostprocessor;
+package com.firefish.springsourcecodedeepanalysis.mybeanfactorypostprocessor;
 
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -14,7 +14,7 @@ import org.springframework.core.io.ClassPathResource;
  */
 public class ProertyConfigurerDemo {
 	public static void main(String[] args) {
-		ConfigurableListableBeanFactory bf = new XmlBeanFactory(new ClassPathResource("com/firefish/springsourcecodedeepanalysis/mybeanpostprocessor/application.xml"));
+		ConfigurableListableBeanFactory bf = new XmlBeanFactory(new ClassPathResource("com/firefish/springsourcecodedeepanalysis/mybeanfactorypostprocessor/application.xml"));
 		BeanFactoryPostProcessor bfpp=(BeanFactoryPostProcessor) bf.getBean("bfpp");
 		bfpp.postProcessBeanFactory(bf);
 		System.out.println(bf.getBean("simpleBean"));

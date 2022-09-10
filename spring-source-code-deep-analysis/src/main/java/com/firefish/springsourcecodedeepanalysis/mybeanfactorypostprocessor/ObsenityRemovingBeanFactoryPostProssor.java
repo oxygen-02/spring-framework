@@ -1,4 +1,4 @@
-package com.firefish.springsourcecodedeepanalysis.mybeanpostprocessor;
+package com.firefish.springsourcecodedeepanalysis.mybeanfactorypostprocessor;
 
 import java.util.HashSet;
 import java.util.Set;
