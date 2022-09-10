@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mytagName="http://www.kdyzm.org/schema/user"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mytagName="http://www.firefish.org/schema/user"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.kdyzm.org/schema/user	http://www.kdyzm.org/schema/user.xsd">
-	<bean id="bfpp"
-		class="com.firefish.springsourcecodedeepanalysis.mybeanpostprocessor.ObsenityRemovingBeanFactoryPostProssor">
-		<property name="obscenties">
-			<set>
-				<value>bollocks</value>
-				<value>winky</value>
-				<value>bum</value>
-				<value>Microsoft</value>
-			</set>
-		</property>
-	</bean>
+						http://www.firefish.org/schema/user	http://www.firefish.org/schema/user.xsd">
 
-	<bean
-		class="com.firefish.springsourcecodedeepanalysis.mybeanpostprocessor.SimplePostProsessor"
-		id="simpleBean">
-		<property name="connectionString" value="bollocks"></property>
-		<property name="password" value="imaginecup"></property>
-		<property name="userName" value="Microsoft"></property>
-	</bean>
+	<bean class="com.firefish.springsourcecodedeepanalysis.mybeanpostprocessor.MyInstantiationAwareBeanPostProcessor"/>
+
+	<bean id="user" class="com.firefish.springsourcecodedeepanalysis.mybeanpostprocessor.User"></bean>
 </beans>

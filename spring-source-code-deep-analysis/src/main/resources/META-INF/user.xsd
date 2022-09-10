@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.kdyzm.org/schema/user"
-	xmlns:tns="http://www.kdyzm.org/schema/user" elementFormDefault="qualified">
+	targetNamespace="http://www.firefish.org/schema/user"
+	xmlns:tns="http://www.firefish.org/schema/user" elementFormDefault="qualified">
 
 	<element name="user">
 		<complexType>

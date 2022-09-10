@@ -20,11 +20,4 @@ public class BeanFactoryTest {
 		MyTestBean bean = (MyTestBean) bf.getBean("myTestBean");
 		assertEquals("testStr", bean.getTestStr());
 	}
-
-	@Test
-	public void test_string(){
-		String a = "classpath:test.xml";
-		int k = a.lastIndexOf('e', a.length() - 3);
-
-	}
 }

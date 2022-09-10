@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mytagName="http://www.kdyzm.org/schema/user"
+	xmlns:mytagName="http://www.firefish.org/schema/user"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.kdyzm.org/schema/user	http://www.kdyzm.org/schema/user.xsd"
+						http://www.firefish.org/schema/user	http://www.firefish.org/schema/user.xsd"
 >
 
 <!--	<import resource="classpath:test.xml"/>-->
@@ -12,7 +12,7 @@
 	<bean id="myTestBean"
 		class="com.firefish.springsourcecodedeepanalysis.beans.MyTestBean">
 		<description></description>
-		<constructor-arg index="0" value="abc"></constructor-arg>
+		<constructor-arg index="0" value="testStr"></constructor-arg>
 	</bean>
 
 	<!-- lookup用法 start -->
@@ -45,8 +45,8 @@
 	<!-- 别名设置 end -->
 
 	<!-- 自定义标签测试start -->
-	<mytagName:user id="testBean" userName="kdyzm"
-		email="kdyzm@foxmail.com"></mytagName:user>
+	<mytagName:user id="testBean" userName="firefish"
+		email="firefish@foxmail.com"></mytagName:user>
 	<!-- 自定义标签测试end -->
 
 	<!-- factoryBean测试start:失败 -->
