@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mytagName="http://www.firefish.org/schema/user"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.firefish.org/schema/user	http://www.firefish.org/schema/user.xsd">
+
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.firefish.springsourcecodedeepanalysis.conversionservice.String2DateConverter"/>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="user" class="com.firefish.springsourcecodedeepanalysis.conversionservice.User">
+        <property name="dateValue" value="2020-01-01 12:12:12"/>
+    </bean>
+</beans>
