@@ -2,10 +2,8 @@ package com.firefish.springsourcecodedeepanalysis.i18n;
 
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.Objects;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import sun.net.www.content.text.Generic;
 
 /**
  * Spring定义的国际化接口是【MessageSource】
@@ -37,4 +35,3 @@ public class Main {
 		System.out.println(test2);
 	}
 }
-;
