@@ -880,6 +880,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
 		Assert.notNull(beanPostProcessor, "BeanPostProcessor must not be null");
 		// Remove from old position, if any
+		// 为什么需要remove？？？因为如MergedBeanDefinitionPostProcessor，即是BeanPostProcessor又是MergedBeanDefinitionPostProcessor，总不能注册两边吧，所以需要先移除
 		this.beanPostProcessors.remove(beanPostProcessor);
 		// Track whether it is instantiation/destruction aware
 		if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {

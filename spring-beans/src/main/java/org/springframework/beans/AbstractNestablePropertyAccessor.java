@@ -83,6 +83,8 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 
 	private String nestedPath = "";
 
+	// 存储BeanDefinition。 GenericBeanDefinition ---> [] ---> RootBeanDefinition
+	// 这是封装了父类的一个 RootBeanDefinition
 	@Nullable
 	Object rootObject;
 
