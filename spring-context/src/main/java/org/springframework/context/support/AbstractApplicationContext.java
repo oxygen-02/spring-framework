@@ -555,7 +555,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
-				// 7、为应用初始化message源，为了"国际化"
+				// 7、为应用初始化message源，为了"国际化"。国际化的入口
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
@@ -679,16 +679,22 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 		// Tell the internal bean factory to use the context's class loader etc.
 		beanFactory.setBeanClassLoader(getClassLoader());
-		// 设置el表达式解析的解析器（beanExpressionResolver）
+		// 设置BeanFactory的表达式处理器。
+		// 默认可以使用#{bean.xxx}的形式来调用相关属性值
 		beanFactory.setBeanExpressionResolver(new StandardBeanExpressionResolver(beanFactory.getBeanClassLoader()));
+		// 为BeanFactory增加一个默认的propertyEditor，这个主要是对bean的属性等设置管理的一个工具
 		// 添加注册"属性编辑器"，在bean实例化的属性填充中可以转换类型。
 		beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
 
 		// Configure the bean factory with context callbacks.
-		// 配置bean factory的上下文回调。
-		// 回调由ApplicationContextAwareProcessor后置处理器执行，会在bean的初始化阶段执行
-		// 为什么要忽略6个Aware接口呢？？？？
+		/**
+		 * 添加 BeanPostProcessor
+		 * 回调由ApplicationContextAwareProcessor后置处理器执行，会在bean的初始化阶段执行
+		 * 主要是在bean实现特定接口时，自动注入一些资源
+		 */
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
+
+		// 设置忽略几个自动装配的接口。为什么要忽略6个Aware接口呢？？？？
 		beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
 		beanFactory.ignoreDependencyInterface(EmbeddedValueResolverAware.class);
 		beanFactory.ignoreDependencyInterface(ResourceLoaderAware.class);
@@ -807,6 +813,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void initApplicationEventMulticaster() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+		// 跟国际化一样，是写死的名称：
 		if (beanFactory.containsLocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)) {
 			this.applicationEventMulticaster =
 					beanFactory.getBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, ApplicationEventMulticaster.class);
@@ -868,14 +875,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void registerListeners() {
 		// Register statically specified listeners first.
-		// 首先注册静态的特定的 listener（其实就是通过容器直接添加的listener）
+		// 1、首先注册静态的特定的 listener（其实就是通过容器直接添加的listener）
 		for (ApplicationListener<?> listener : getApplicationListeners()) {
 			getApplicationEventMulticaster().addApplicationListener(listener);
 		}
 
 		// Do not initialize FactoryBeans here: We need to leave all regular beans
 		// uninitialized to let post-processors apply to them!
-		// 然后注册实现了ApplicationListener接口的listener
+		// 2、然后注册实现了ApplicationListener接口的listener
 		String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);
 		for (String listenerBeanName : listenerBeanNames) {
 			getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);
@@ -897,6 +904,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
 		// Initialize conversion service for this context.
+		// 也必须是固定的名称，还有那些【国际化、监听机制中、conversionService中】
 		if (beanFactory.containsBean(CONVERSION_SERVICE_BEAN_NAME) &&
 				beanFactory.isTypeMatch(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class)) {
 			beanFactory.setConversionService(
@@ -937,9 +945,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		clearResourceCaches();
 
 		// Initialize lifecycle processor for this context.
+		// 初始化生命周期处理器
 		initLifecycleProcessor();
 
 		// Propagate refresh to lifecycle processor first.
+		// 启动生命周期处理器
 		getLifecycleProcessor().onRefresh();
 
 		// Publish the final event.

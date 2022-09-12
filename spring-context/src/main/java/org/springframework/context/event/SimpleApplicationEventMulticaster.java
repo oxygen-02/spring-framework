@@ -136,6 +136,7 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 		// 解析哪些listeners能支持ResolvableType类型的事件
 		for (ApplicationListener<?> listener : getApplicationListeners(event, type)) {
 			if (executor != null) {
+				// 因为listener可能是多线程， 所以是不保证先后顺序的
 				executor.execute(() -> invokeListener(listener, event));
 			}
 			else {
