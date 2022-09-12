@@ -108,8 +108,10 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 		}
 		else {
 			// A singleton aspect.
+			// 切面实例化模型有多个，正常都是单例的切面模型，看这里就好了
 			this.pointcut = this.declaredPointcut;
 			this.lazy = false;
+			// 对 Advisor 进行实例化
 			this.instantiatedAdvice = instantiateAdvice(this.declaredPointcut);
 		}
 	}

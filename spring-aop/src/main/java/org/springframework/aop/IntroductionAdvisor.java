@@ -29,6 +29,8 @@ package org.springframework.aop;
  * @since 04.04.2003
  * @see IntroductionInterceptor
  */
+// introductions 类型 advisor的顶级接口。
+// advisor 大概分2类：一类是 introducetion，另外一类是 Pointcut（切入点）；切入点当然非常常用
 public interface IntroductionAdvisor extends Advisor, IntroductionInfo {
 
 	/**

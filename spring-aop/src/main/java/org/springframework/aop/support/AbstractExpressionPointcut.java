@@ -36,6 +36,7 @@ public abstract class AbstractExpressionPointcut implements ExpressionPointcut, 
 	@Nullable
 	private String location;
 
+	// AspectJ 表达式
 	@Nullable
 	private String expression;
 

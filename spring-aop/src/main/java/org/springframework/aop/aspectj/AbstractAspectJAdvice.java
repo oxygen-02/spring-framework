@@ -102,6 +102,7 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 
 	private final AspectJExpressionPointcut pointcut;
 
+	// 切面实例工厂，这么绕？其实就是记录这个切面是由哪个核心容器创建的
 	private final AspectInstanceFactory aspectInstanceFactory;
 
 	/**

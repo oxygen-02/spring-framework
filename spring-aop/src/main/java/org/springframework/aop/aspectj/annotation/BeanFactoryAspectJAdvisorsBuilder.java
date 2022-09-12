@@ -38,10 +38,13 @@ import org.springframework.util.Assert;
  * @since 2.0.2
  * @see AnnotationAwareAspectJAutoProxyCreator
  */
+// 从核心容器检索@AspectJ的bean，且在此基础上构建[Advisors]
 public class BeanFactoryAspectJAdvisorsBuilder {
 
+	// spring的核心容器
 	private final ListableBeanFactory beanFactory;
 
+	// 能创建aop增强的工厂。即advisor_factorys
 	private final AspectJAdvisorFactory advisorFactory;
 
 	@Nullable
@@ -80,6 +83,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	 * @return the list of {@link org.springframework.aop.Advisor} beans
 	 * @see #isEligibleBean
 	 */
+	// 查找AspectJ注解的bean在当前容器中，并返回AOP Advisors来表示它们
 	public List<Advisor> buildAspectJAdvisors() {
 		List<String> aspectNames = this.aspectBeanNames;
 
@@ -90,7 +94,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 				if (aspectNames == null) {
 					List<Advisor> advisors = new ArrayList<>();
 					aspectNames = new ArrayList<>();
-					// 2、获取容器中所有对象
+					// 2、获取容器中所有对象名称（不像父类一样只获取Advisor接口的bean名称）
 					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 							this.beanFactory, Object.class, true, false);
 					// 3、遍历
@@ -106,7 +110,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 							continue;
 						}
 
-						// 5、判断beanType是否是一个切面
+						// 5、判断beanType是否是一个切面（是不是有@Aspect注解）
 						if (this.advisorFactory.isAspect(beanType)) {
 							aspectNames.add(beanName);
 							AspectMetadata amd = new AspectMetadata(beanType, beanName);

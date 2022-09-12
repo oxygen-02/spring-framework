@@ -126,8 +126,8 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 	/**
 	 * Find and return the first AspectJ annotation on the given method
 	 * (there <i>should</i> only be one anyway...).
-	 * 使用AnnotationUtils.findAnnotation()判断 method 是否有 ASPECTJ_ANNOTATION_CLASSES 中的注解（注意啊aop的时候之前排除了@Pointcut注解，所以只剩下了5个其他注解）
 	 */
+	// 使用AnnotationUtils.findAnnotation()判断 method 是否有 ASPECTJ_ANNOTATION_CLASSES 中的注解（注意啊aop的时候之前排除了@Pointcut注解，所以只剩下了5个其他注解）
 	@SuppressWarnings("unchecked")
 	@Nullable
 	protected static AspectJAnnotation<?> findAspectJAnnotationOnMethod(Method method) {
@@ -167,6 +167,8 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 	 * pointcut String.
 	 * @param <A> the annotation type
 	 */
+	// 是 an AspectJ annotation 的"模型对象"
+	// 封装思想
 	protected static class AspectJAnnotation<A extends Annotation> {
 
 		private static final String[] EXPRESSION_ATTRIBUTES = new String[] {"pointcut", "value"};
@@ -182,12 +184,16 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 			annotationTypeMap.put(AfterThrowing.class, AspectJAnnotationType.AtAfterThrowing);
 		}
 
+		// 增强方法的注解对象
 		private final A annotation;
 
+		// 注解的类型
 		private final AspectJAnnotationType annotationType;
 
+		// 切面表达式
 		private final String pointcutExpression;
 
+		// argNames的属性值
 		private final String argumentNames;
 
 		public AspectJAnnotation(A annotation) {
@@ -211,6 +217,7 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 			throw new IllegalStateException("Unknown annotation type: " + annotation);
 		}
 
+		// 解析注解属性的值，有vlaue可以理解，为啥有pointcut属性？？？
 		private String resolveExpression(A annotation) {
 			for (String attributeName : EXPRESSION_ATTRIBUTES) {
 				Object val = AnnotationUtils.getValue(annotation, attributeName);

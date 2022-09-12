@@ -38,10 +38,13 @@ import org.springframework.lang.Nullable;
  */
 class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
 
+	/**
+	 * @param parserContext 就是含有"核心容器"的引用，ok？
+	 */
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
-		// 注册启用aop功能的bean
+		// 注册启用aop功能的bean【注册AspectJAnnotationAutoProxyCreator】
 		AopNamespaceUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(parserContext, element);
 
 		// 解析子元素
@@ -50,8 +53,10 @@ class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void extendBeanDefinition(Element element, ParserContext parserContext) {
+		// 就是上面注册的 BeanDefinition呗
 		BeanDefinition beanDef =
 				parserContext.getRegistry().getBeanDefinition(AopConfigUtils.AUTO_PROXY_CREATOR_BEAN_NAME);
+		// 解析子元素
 		if (element.hasChildNodes()) {
 			addIncludePatterns(element, parserContext, beanDef);
 		}
@@ -72,7 +77,7 @@ class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
 		}
 		if (!includePatterns.isEmpty()) {
 			includePatterns.setSource(parserContext.extractSource(element));
-			// 最后吧子元素加入到BeanDefinition中的属性中
+			// 【最后吧子元素加入到BeanDefinition中的属性中】
 			// 既然加入的是属性，那么你知道他会在"属性填充"阶段吧值填充到bean instance中把
 			beanDef.getPropertyValues().add("includePatterns", includePatterns);
 		}

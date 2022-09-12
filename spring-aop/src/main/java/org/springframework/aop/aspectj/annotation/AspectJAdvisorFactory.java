@@ -87,7 +87,7 @@ public interface AspectJAdvisorFactory {
 	/**
 	 * Build a Spring AOP Advice for the given AspectJ advice method.
 	 * @param candidateAdviceMethod the candidate advice method
-	 * @param expressionPointcut the AspectJ expression pointcut
+	 * @param expressionPointcut the AspectJ expression pointcut    封装了【增强方法】等信息
 	 * @param aspectInstanceFactory the aspect instance factory
 	 * @param declarationOrder the declaration order within the aspect
 	 * @param aspectName the name of the aspect

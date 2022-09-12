@@ -41,6 +41,7 @@ import org.springframework.util.ClassUtils;
  * @see org.springframework.beans.factory.BeanFactory
  * @see LazySingletonAspectInstanceFactoryDecorator
  */
+// 连接 AspectInstanceFactory 和 BeanFactory 产生联系。
 @SuppressWarnings("serial")
 public class BeanFactoryAspectInstanceFactory implements MetadataAwareAspectInstanceFactory, Serializable {
 
@@ -48,6 +49,7 @@ public class BeanFactoryAspectInstanceFactory implements MetadataAwareAspectInst
 
 	private final String name;
 
+	// 切面元数据
 	private final AspectMetadata aspectMetadata;
 
 

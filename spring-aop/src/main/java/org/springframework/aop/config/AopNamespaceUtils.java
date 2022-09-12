@@ -82,7 +82,7 @@ public abstract class AopNamespaceUtils {
 		useClassProxyingIfNecessary(parserContext.getRegistry(), sourceElement);
 
 
-		// 作用待明确？？？
+		// 把 BeanDefinition 注册到了"一个地方"
 		registerComponentIfNecessary(beanDefinition, parserContext);
 	}
 
