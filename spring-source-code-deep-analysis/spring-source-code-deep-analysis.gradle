@@ -4,17 +4,12 @@ dependencies {
     compile(project(":spring-aop"))
     compile(project(":spring-aspects"))
 
-    compile 'cn.hutool:hutool-all:5.4.7'
-
+    implementation 'cn.hutool:hutool-all:5.4.7'
 
     // 引入lombok
-    compileOnly 'org.projectlombok:lombok:1.18.4'
-    annotationProcessor 'org.projectlombok:lombok:1.18.4'
-    testCompileOnly 'org.projectlombok:lombok:1.18.4'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.4'
+    implementation 'org.projectlombok:lombok:1.18.4'
 
     // slf4j、logback
-    implementation 'org.slf4j:slf4j-api:1.7.32'
     implementation 'ch.qos.logback:logback-classic:1.1.7'
 }
 sourceSets {

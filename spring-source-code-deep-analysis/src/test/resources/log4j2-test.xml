@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+	<Properties>
+		<!-- 定义日志格式 -->
+<!--		<Property name="log.pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | [%thread] %c [%L] [%M] | %msg%n</Property>-->
+		<Property name="log.pattern">%d [%t] %-5level [%c:%L] %M -【traceId:%X{traceId}】 - %msg%n</Property>
+		<!-- 定义文件名变量 -->
+		<Property name="file.filename">log/output.log</Property>
+		<Property name="file.pattern">log/$${date:yyyy-MM}/output-%d{yyyy-MM-dd}-%i.log</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<!-- 日志格式引用上面定义的log.pattern -->
+			<PatternLayout pattern="${log.pattern}" />
+		</Console>
+
+		<!-- 定义输出到文件,文件名引用上面定义的file.err.filename -->
+		<RollingFile name="File" bufferedIO="true" fileName="${file.filename}" filePattern="${file.pattern}">
+			<PatternLayout pattern="${log.pattern}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<!-- 根据文件大小自动切割日志 -->
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<!-- 保留最近10份 -->
+			<DefaultRolloverStrategy max="10" />
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.firefish" level="DEBUG"/>
+
+		<!--	控制spring内部日志打印	-->
+		<Logger name="org.springframework" level="trace"/>
+
+		<Root level="info" includeLocation="true">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</Root>
+	</Loggers>
+</Configuration>

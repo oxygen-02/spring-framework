@@ -45,5 +45,5 @@ atlassian-ide-plugin.xml
 
 # 排除提交给git的文件
 /log
-/firefish-*/build
-/firefish-*/log
+/*/log
+/*/build
