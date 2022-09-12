@@ -4,6 +4,9 @@ dependencies {
     compile(project(":spring-aop"))
     compile(project(":spring-aspects"))
 
+    compile 'cn.hutool:hutool-all:5.4.7'
+
+
     // 引入lombok
     compileOnly 'org.projectlombok:lombok:1.18.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
