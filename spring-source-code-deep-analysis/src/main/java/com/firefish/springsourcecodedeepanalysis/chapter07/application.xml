@@ -9,7 +9,39 @@
             https://www.springframework.org/schema/aop/spring-aop.xsd">
 
 <!--    开启aop-->
-    <aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy />
+
+<!--&lt;!&ndash;  原始的aop写法  &ndash;&gt;-->
+<!--    <aop:config>-->
+<!--&lt;!&ndash;        定义切面&ndash;&gt;-->
+<!--        <aop:aspect id="myAspect" ref="aBean">-->
+<!--            <aop:before pointcut-ref="businessService" method="monitor"/>-->
+<!--            <aop:after-returning-->
+<!--                    pointcut-ref="dataAccessOperation"-->
+<!--                    returning="retVal"-->
+<!--                    method="doAccessCheck"/>-->
+<!--            <aop:after-throwing-->
+<!--                    pointcut-ref="dataAccessOperation"-->
+<!--                    throwing="dataAccessEx"-->
+<!--                    method="doRecoveryActions"/>-->
+<!--            <aop:after-->
+<!--                    pointcut-ref="dataAccessOperation"-->
+<!--                    method="doReleaseLock"/>-->
+<!--            <aop:around-->
+<!--                    pointcut-ref="businessService"-->
+<!--                    method="doBasicProfiling"/>-->
+<!--        </aop:aspect>-->
+
+<!--&lt;!&ndash;        定义切入点&ndash;&gt;-->
+<!--        <aop:pointcut id="businessService"-->
+<!--                      expression="execution(* com.xyz.myapp.service.*.*(..))"/>-->
+<!--&lt;!&ndash;        定义切入点和切面的关联&ndash;&gt;-->
+<!--        <<aop:advisor-->
+<!--            pointcut-ref="businessService"-->
+<!--            advice-ref="tx-advice"/>-->
+
+<!--    </aop:config>-->
+
 
 <!--    bean -->
     <bean id="test" class="com.firefish.springsourcecodedeepanalysis.chapter07.TestBean"/>
