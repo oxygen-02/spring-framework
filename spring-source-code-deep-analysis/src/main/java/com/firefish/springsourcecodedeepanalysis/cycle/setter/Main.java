@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		XmlBeanFactory context = new XmlBeanFactory(new ClassPathResource("com/firefish/springsourcecodedeepanalysis/cycle/setter/application.xml"));
 //		ApplicationContext context = new ClassPathXmlApplicationContext(
-//                "com/firefish/springsourcecodedeepanalysis/cycle/setter/application.xml");
+//                "com/firefish/springsourcecodedeepanalysis/cycle/setter/application-version02.xml");
 		System.out.println(context.getBean("bean_3"));
 	}
 }
