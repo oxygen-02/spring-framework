@@ -18,13 +18,6 @@ public class MybatisTest {
 	}
 
 	@Test
-	public void testMybatisIntegrateWithSpring() {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		User user = context.getBean(UserMapper.class).getUser(1);
-		System.err.println(user);
-	}
-
-	@Test
 	public void testAdd() {
 		// try-with-resources 特性。
 		// session是会话级别的，用完要及时关闭
@@ -35,6 +28,15 @@ public class MybatisTest {
 
 			// 这里一定要提交，不然数据进不去数据库中
 			session.commit();
+		}
+	}
+
+	@Test
+	public void getUser() {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			UserMapper userMapper = session.getMapper(UserMapper.class);
+			User user = userMapper.getUser(1);
+			System.out.println(user);
 		}
 	}
 }
