@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- 单独使用mybatis的配置文件 -->
+<configuration>
+
+    <properties resource="com/firefish/springsourcecodedeepanalysis/chapter09_mybatis/db.properties">
+    </properties>
+
+    <settings>
+<!--        changes from the defaults for testing -->
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="defaultExecutorType" value="REUSE"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="user" type="com.firefish.springsourcecodedeepanalysis.chapter09_mybatis.pojo.User"/>
+    </typeAliases>
+
+
+
+    <mappers>
+        <mapper resource="com/firefish/springsourcecodedeepanalysis/chapter09_mybatis/mapper/UserMapper.xml"/>
+    </mappers>
+</configuration>
