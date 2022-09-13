@@ -1,4 +1,4 @@
-package com.firefish.springsourcecodedeepanalysis.jdbc;
+package com.firefish.springsourcecodedeepanalysis.chapter08_jdbc;
 
 
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
-import com.firefish.springsourcecodedeepanalysis.jdbc.pojo.User;
-import com.firefish.springsourcecodedeepanalysis.jdbc.service.UserService;
+import com.firefish.springsourcecodedeepanalysis.chapter08_jdbc.pojo.User;
+import com.firefish.springsourcecodedeepanalysis.chapter08_jdbc.service.UserService;
 
 /**
  * 功能：
@@ -18,7 +18,7 @@ import com.firefish.springsourcecodedeepanalysis.jdbc.service.UserService;
 public class Main {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:com/firefish/springsourcecodedeepanalysis/jdbc/application.xml");
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:com/firefish/springsourcecodedeepanalysis/chapter08_jdbc/application.xml");
         UserService userService = ctx.getBean(UserService.class);
 
         User user = new User();

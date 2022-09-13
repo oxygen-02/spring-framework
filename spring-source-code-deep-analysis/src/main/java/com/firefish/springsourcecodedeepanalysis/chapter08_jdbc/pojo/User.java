@@ -1,4 +1,4 @@
-package com.firefish.springsourcecodedeepanalysis.jdbc.pojo;
+package com.firefish.springsourcecodedeepanalysis.chapter08_jdbc.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

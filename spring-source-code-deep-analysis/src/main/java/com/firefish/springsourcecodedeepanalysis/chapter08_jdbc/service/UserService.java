@@ -1,6 +1,6 @@
-package com.firefish.springsourcecodedeepanalysis.jdbc.service;
+package com.firefish.springsourcecodedeepanalysis.chapter08_jdbc.service;
 
-import com.firefish.springsourcecodedeepanalysis.jdbc.pojo.User;
+import com.firefish.springsourcecodedeepanalysis.chapter08_jdbc.pojo.User;
 
 import java.util.List;
 
