@@ -19,7 +19,7 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="configLocation"
-                  value="classpath:com/firefish/springsourcecodedeepanalysis/chapter09_mybatis/mybatis-config-version01.xml"/>
+                  value="classpath:com/firefish/springsourcecodedeepanalysis/chapter09_mybatis/mybatis-config.xml"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
