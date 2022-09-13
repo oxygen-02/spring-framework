@@ -21,7 +21,7 @@
     </typeAliases>
 
 
-
+<!-- 即使配置了mapper接口，xml文件也是必须配置的-->
     <mappers>
         <mapper resource="com/firefish/springsourcecodedeepanalysis/chapter09_mybatis/mapper/UserMapper.xml"/>
     </mappers>
