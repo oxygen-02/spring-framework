@@ -3,13 +3,12 @@ package com.firefish.springsourcecodedeepanalysis.chapter09_mybatis;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.firefish.springsourcecodedeepanalysis.chapter09_mybatis.mapper.UserMapper;
 import com.firefish.springsourcecodedeepanalysis.chapter09_mybatis.pojo.User;
 import com.firefish.springsourcecodedeepanalysis.chapter09_mybatis.util.MybatisUtil;
 
-public class MybatisTest {
+public class MybatisVersion01Test {
 
 	static SqlSessionFactory sqlSessionFactory;
 

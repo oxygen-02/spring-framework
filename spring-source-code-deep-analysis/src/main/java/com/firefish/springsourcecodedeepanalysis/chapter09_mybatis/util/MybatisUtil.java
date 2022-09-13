@@ -1,7 +1,6 @@
 package com.firefish.springsourcecodedeepanalysis.chapter09_mybatis.util;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
 
 import org.apache.ibatis.io.Resources;
@@ -18,7 +17,7 @@ public class MybatisUtil {
 	public static final SqlSessionFactory sqlSessionFactory;
 
 	static {
-		String resource = "com/firefish/springsourcecodedeepanalysis/chapter09_mybatis/mybatis-config-alone.xml";
+		String resource = "com/firefish/springsourcecodedeepanalysis/chapter09_mybatis/mybatis-config-version01.xml";
 		Reader reader = null;
 		try {
 			reader = Resources.getResourceAsReader(resource);
