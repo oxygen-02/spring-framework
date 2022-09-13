@@ -7,19 +7,21 @@ dependencies {
 
     compile(project(":spring-jdbc"))
 
+    // 在非测试包也引入单元测试
+    implementation("junit:junit:4.12")
+
     implementation 'cn.hutool:hutool-all:5.4.7'
 
     // 引入lombok
     implementation 'org.projectlombok:lombok:1.18.4'
-
     // slf4j、logback
     implementation 'ch.qos.logback:logback-classic:1.1.7'
-
     // dbcp数据库连接池
     implementation 'commons-dbcp:commons-dbcp:1.4'
-
     // 高版本的mysql的驱动
     implementation 'mysql:mysql-connector-java:8.0.21'
+    // mybatis、mybatis-spring
+    implementation 'org.mybatis:mybatis:3.4.1'
 }
 sourceSets {
     main{
