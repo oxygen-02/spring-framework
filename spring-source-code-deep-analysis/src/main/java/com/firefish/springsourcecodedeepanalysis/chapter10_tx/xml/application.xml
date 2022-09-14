@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/tx
+                http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+    <context:property-placeholder location="classpath:com/firefish/springsourcecodedeepanalysis/chapter10_tx/xml/db.properties"/>
+
+<!--配置数据源-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="driverClassName" value="${db.driverClassName}"/>
+
+        <!-- 连接的初始值； 连接的最大值； 连接的最大空闲值； 连接的最小空闲值 -->
+        <!--连接池启动时候的初始值-->
+        <property name="initialSize" value="1"/>
+        <property name="maxActive" value="300"/>
+        <property name="maxIdle" value="2"/>
+        <property name="minIdle" value="1"/>
+    </bean>
+
+<!--    开启事务-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+<!--    事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+<!--    业务bean-->
+    <bean id="userService" class="com.firefish.springsourcecodedeepanalysis.chapter10_tx.xml.UserServiceImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>
