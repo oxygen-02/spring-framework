@@ -50,17 +50,22 @@ import org.springframework.util.Assert;
  */
 public class DefaultTransactionStatus extends AbstractTransactionStatus {
 
+	// jdbc是DataSourceTransactionObject对象（其他事务类型就是其他对象了）
 	@Nullable
 	private final Object transaction;
 
+	// 是否新的事务
 	private final boolean newTransaction;
 
+	// 是否新的线程同步（即是否把事务状态保存到当前线程）
 	private final boolean newSynchronization;
 
+	// 是否是只读连接
 	private final boolean readOnly;
 
 	private final boolean debug;
 
+	// 之前被挂起的事务的"资源"
 	@Nullable
 	private final Object suspendedResources;
 

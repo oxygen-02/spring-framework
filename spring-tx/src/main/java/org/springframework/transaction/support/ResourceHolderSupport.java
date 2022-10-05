@@ -33,10 +33,14 @@ import org.springframework.transaction.TransactionTimedOutException;
  * @see org.springframework.jdbc.datasource.DataSourceTransactionManager#doBegin
  * @see org.springframework.jdbc.datasource.DataSourceUtils#applyTransactionTimeout
  */
+// 实用的/方便的基类
 public abstract class ResourceHolderSupport implements ResourceHolder {
 
+	// 是否事务同步，如果设置为true则doBegin方法会重新创建conn
 	private boolean synchronizedWithTransaction = false;
 
+	// 回滚标识。对于比如JTA事务不在Spring的管理范围内，或者无法设置保存点，那么Spring会通过设置回滚标识的方式来禁止提交
+	// 首先当某个嵌套事务发生回滚的时候会设置回滚标识，而等到外部事务提交时，一旦判断出当前事务流被设置了回滚标识则由外部事务来统一进行整体事务回滚
 	private boolean rollbackOnly = false;
 
 	@Nullable

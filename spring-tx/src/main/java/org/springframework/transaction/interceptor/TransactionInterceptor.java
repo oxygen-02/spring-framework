@@ -86,6 +86,7 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 	}
 
 
+	// spring事务拦截器方法执行的入口《核心方法》
 	@Override
 	@Nullable
 	public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -95,6 +96,7 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 		Class<?> targetClass = (invocation.getThis() != null ? AopUtils.getTargetClass(invocation.getThis()) : null);
 
 		// Adapt to TransactionAspectSupport's invokeWithinTransaction...
+		// [invocation::proceed]指示调用完事务逻辑，继续回到拦截器chain的调用中，来调用后面的拦截器
 		return invokeWithinTransaction(invocation.getMethod(), targetClass, invocation::proceed);
 	}
 
