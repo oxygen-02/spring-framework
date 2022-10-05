@@ -13,7 +13,7 @@
 
     <context:property-placeholder location="classpath:com/firefish/springsourcecodedeepanalysis/chapter10_tx/xml/db.properties"/>
 
-<!--配置数据源-->
+<!--配置数据源。 所谓的"连接池"，其实就是DataSource接口 -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>

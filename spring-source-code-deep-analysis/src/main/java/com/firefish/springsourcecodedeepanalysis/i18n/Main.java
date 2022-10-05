@@ -20,6 +20,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 4、最后就是javase中的对MessageFormat应用占位符参数
  *
  * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
  * @since 2022-09-11 9:07 AM
  */
 public class Main {

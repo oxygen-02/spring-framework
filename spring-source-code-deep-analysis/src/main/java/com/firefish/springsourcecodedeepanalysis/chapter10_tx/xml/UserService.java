@@ -1,10 +1,15 @@
 package com.firefish.springsourcecodedeepanalysis.chapter10_tx.xml;
 
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.firefish.springsourcecodedeepanalysis.chapter10_tx.xml.User;
-
+/**
+ * 功能: 在接口上声明事务.
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
+ * @since 2022-10-05 1:40 PM
+ */
+@Transactional(rollbackFor = RuntimeException.class)
 public interface UserService {
 
     /**

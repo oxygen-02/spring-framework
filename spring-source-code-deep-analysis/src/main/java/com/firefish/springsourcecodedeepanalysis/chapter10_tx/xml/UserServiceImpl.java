@@ -3,11 +3,14 @@ package com.firefish.springsourcecodedeepanalysis.chapter10_tx.xml;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.firefish.springsourcecodedeepanalysis.chapter10_tx.xml.User;
-import com.firefish.springsourcecodedeepanalysis.chapter10_tx.xml.UserService;
-
+/**
+ * 功能: 用户服务类.
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
+ * @since 2022-10-05 1:40 PM
+ */
 public class UserServiceImpl implements UserService {
 
     private JdbcTemplate jdbcTemplate;
@@ -17,7 +20,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public void saveWithTransaction(User user) {
         doSave(user);

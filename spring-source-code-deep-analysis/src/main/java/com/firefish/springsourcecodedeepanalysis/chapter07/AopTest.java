@@ -13,7 +13,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 第四步：根据增强器创建代理对象
  * 第五步：代理对象对目标方法进行拦截
  *
- * @author apple
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
  * @date 2022/09/11
  */
 public class AopTest {

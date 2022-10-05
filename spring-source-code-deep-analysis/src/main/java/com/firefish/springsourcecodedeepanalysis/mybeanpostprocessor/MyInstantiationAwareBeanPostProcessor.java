@@ -8,6 +8,8 @@ import org.springframework.beans.factory.config.InstantiationAwareBeanPostProces
  * 在bean的初始化方法前后起作用
  *
  * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
  * @since 2022-09-10 6:15 PM
  */
 public class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {

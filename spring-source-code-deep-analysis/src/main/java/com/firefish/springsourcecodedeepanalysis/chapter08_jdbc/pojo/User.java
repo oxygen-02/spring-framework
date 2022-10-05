@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 /**
  * 功能：
  *
- * @author apple
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
  * @date 2021-11-08 10:50 下午
  */
 @Data

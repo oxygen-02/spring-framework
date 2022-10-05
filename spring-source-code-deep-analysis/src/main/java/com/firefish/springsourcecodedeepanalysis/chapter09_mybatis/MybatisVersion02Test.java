@@ -9,6 +9,8 @@ import com.firefish.springsourcecodedeepanalysis.chapter09_mybatis.mapper.UserMa
  * 功能: MapperFactoryBean 版本的mybatis测试.
  *
  * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
  * @since 2022-09-14 1:26 AM
  */
 public class MybatisVersion02Test {

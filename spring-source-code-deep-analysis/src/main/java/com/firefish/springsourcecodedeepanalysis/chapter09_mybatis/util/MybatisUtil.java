@@ -11,6 +11,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  * 功能: 从 XML 中构建 SqlSessionFactory.
  *
  * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
  * @since 2022-09-14 12:17 AM
  */
 public class MybatisUtil {

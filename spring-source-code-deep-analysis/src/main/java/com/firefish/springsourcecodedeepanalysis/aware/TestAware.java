@@ -13,12 +13,12 @@ public class TestAware implements BeanFactoryAware {
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
 	}
-	
-	public void testAware(){
-		
+
+	public void testAware() {
+
 		Hello bean = (Hello) beanFactory.getBean("hello");
 		bean.say();
-		
+
 	}
 
 }

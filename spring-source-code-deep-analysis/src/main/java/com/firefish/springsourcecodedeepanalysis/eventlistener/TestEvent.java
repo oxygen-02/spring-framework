@@ -6,6 +6,8 @@ import org.springframework.context.ApplicationEvent;
  * 功能: 描述.
  *
  * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
  * @since 2022-09-11 5:03 PM
  */
 public class TestEvent extends ApplicationEvent {

@@ -9,7 +9,9 @@ import org.springframework.core.io.ClassPathResource;
 /**
  * 演示 自定义BeanFactory 何时被回调。
  *
- * @author apple
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
  * @date 2022/09/10
  */
 public class ProertyConfigurerDemo {
