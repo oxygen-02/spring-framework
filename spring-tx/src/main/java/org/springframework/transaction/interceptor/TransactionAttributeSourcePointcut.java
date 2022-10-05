@@ -35,6 +35,9 @@ import org.springframework.util.ObjectUtils;
 @SuppressWarnings("serial")
 abstract class TransactionAttributeSourcePointcut extends StaticMethodMatcherPointcut implements Serializable {
 
+	/*
+	功能：在tx流程的canApply方法中，这里的matches是判断是否应该应用事务的关键条件
+	 */
 	@Override
 	public boolean matches(Method method, Class<?> targetClass) {
 		if (TransactionalProxy.class.isAssignableFrom(targetClass) ||
@@ -42,6 +45,8 @@ abstract class TransactionAttributeSourcePointcut extends StaticMethodMatcherPoi
 				PersistenceExceptionTranslator.class.isAssignableFrom(targetClass)) {
 			return false;
 		}
+
+		// 判断method是否配置了事务属性
 		TransactionAttributeSource tas = getTransactionAttributeSource();
 		return (tas == null || tas.getTransactionAttribute(method, targetClass) != null);
 	}
