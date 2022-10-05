@@ -89,6 +89,7 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 	 * with proxy-based AOP), or protected/private methods as well
 	 * (typically used with AspectJ class weaving)
 	 */
+	// 为什么 AnnotationTransactionAttributeSource 会被实例化。因为在tx注册的时候把它注册成为BeanFactoryTransactionAttributeSourceAdvisor的transactionAttributeSource属性
 	public AnnotationTransactionAttributeSource(boolean publicMethodsOnly) {
 		this.publicMethodsOnly = publicMethodsOnly;
 		if (jta12Present || ejb3Present) {
