@@ -6,27 +6,32 @@
 
     <display-name>Spring MVC</display-name>
 
+    <!-- 定义servletContext全局参数，供ContextLoaderListener使用-->
     <context-param>
+        <!-- 参数名称都是规定好的，不可乱填 -->
+        <!-- contextConfigLocation定义了"根web上下文"容器加载的核心配置文件 -->
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:com/firefish/springsourcecodedeepanalysis/chapter11_mvc/applicationContext.xml</param-value>
     </context-param>
 
-
+    <!-- dispatcherServlet的映射 -->
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
-        <url-pattern>*.htm</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
 
     <!--   SpringMVC的前端控制器-->
-    <!--    当DispatcherServlet载入后，它将从一个xml文件中载入Spring的应用上下文，改xml文件的名称取决于<servlet-name> -->
+    <!--   当DispatcherServlet载入后，它将从一个xml文件中载入Spring的应用上下文，改xml文件的名称取决于<servlet-name> -->
     <!--   这里DispatcherServlet将试图从一个叫做dispatcherServlet-servlet.xml 文件中载入应用上下文。其默认位置是WEB-INF目录下 -->
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
+        <!-- dispatcherServlet定义了"servlet上下文"容器加载的核心配置文件 -->
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- 参数名称都是规定好的，不可乱填 -->
+        <!-- <init-param></init-param> -->
         <load-on-startup>1</load-on-startup>
     </servlet>
-
 
 
     <!--    web容器。一般作为父容器 -->
