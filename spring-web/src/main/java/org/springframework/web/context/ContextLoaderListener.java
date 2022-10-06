@@ -34,6 +34,11 @@ import javax.servlet.ServletContextListener;
  * @see #setContextInitializers
  * @see org.springframework.web.WebApplicationInitializer
  */
+
+/**
+ * Spring MVC的入口。
+ * 因为实现了ServletContextListener接口，所以当ServletContext容器改变时，会发生回调
+ */
 public class ContextLoaderListener extends ContextLoader implements ServletContextListener {
 
 	/**
@@ -100,6 +105,7 @@ public class ContextLoaderListener extends ContextLoader implements ServletConte
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
+		// 初始化"根web应用上下文"
 		initWebApplicationContext(event.getServletContext());
 	}
 

@@ -16,12 +16,6 @@
 
 package org.springframework.web.context.support;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletConfig;
@@ -29,6 +23,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -297,10 +296,12 @@ public abstract class WebApplicationContextUtils {
 		Assert.notNull(sources, "'propertySources' must not be null");
 		String name = StandardServletEnvironment.SERVLET_CONTEXT_PROPERTY_SOURCE_NAME;
 		if (servletContext != null && sources.get(name) instanceof StubPropertySource) {
+			// 把ServletContext设置到环境变量中
 			sources.replace(name, new ServletContextPropertySource(name, servletContext));
 		}
 		name = StandardServletEnvironment.SERVLET_CONFIG_PROPERTY_SOURCE_NAME;
 		if (servletConfig != null && sources.get(name) instanceof StubPropertySource) {
+			// 把servletConfig设置到环境变量中
 			sources.replace(name, new ServletConfigPropertySource(name, servletConfig));
 		}
 	}
