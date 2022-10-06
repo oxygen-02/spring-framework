@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="3.1">
+
+    <display-name>Spring MVC</display-name>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:com/firefish/springsourcecodedeepanalysis/chapter11_mvc/applicationContext.xml</param-value>
+    </context-param>
+
+
+    <servlet-mapping>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+
+
+    <!--   SpringMVC的前端控制器-->
+    <!--    当DispatcherServlet载入后，它将从一个xml文件中载入Spring的应用上下文，改xml文件的名称取决于<servlet-name> -->
+    <!--   这里DispatcherServlet将试图从一个叫做dispatcherServlet-servlet.xml 文件中载入应用上下文。其默认位置是WEB-INF目录下 -->
+    <servlet>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+
+
+    <!--    web容器。一般作为父容器 -->
+    <!--    原理是：servlet规范规定服务器启动后，实现了ServletContextListener接口的类会被服务器回调-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+</web-app>

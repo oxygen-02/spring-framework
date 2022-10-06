@@ -28,7 +28,7 @@
         <property name="minIdle" value="1"/>
     </bean>
 
-<!--    开启事务-->
+<!--    开启事务。如果不指定名称，则事务管理器必须叫做[transactionManager] -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
 <!--    事务管理器-->
