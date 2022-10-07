@@ -283,6 +283,8 @@ public class DispatcherServlet extends FrameworkServlet {
 		// This is currently strictly internal and not meant to be customized
 		// by application developers.
 		try {
+			// 用classpath规则来获取文件的，所以如果指定了参考类就在类的路径，如果没有就是classpath路径。
+			// 这里看DispatcherServlet类位置
 			ClassPathResource resource = new ClassPathResource(DEFAULT_STRATEGIES_PATH, DispatcherServlet.class);
 			defaultStrategies = PropertiesLoaderUtils.loadProperties(resource);
 		}
@@ -499,15 +501,29 @@ public class DispatcherServlet extends FrameworkServlet {
 	 * <p>May be overridden in subclasses in order to initialize further strategy objects.
 	 */
 	protected void initStrategies(ApplicationContext context) {
-
+		// 初始化"MultipartResolver"，是用于文件上传的
 		initMultipartResolver(context);
+		// 初始化"区域解析器"，常见的有基于"请求头"和"session"的
 		initLocaleResolver(context);
+		// 不常见，待研究
 		initThemeResolver(context);
+		// 初始化"HandlerMappings"【重要、核心】
+		// 当客户端发出 Request 时 DispatcherServlet 会将 Request 提交给HandlerMappings，然后HandlerMapping根据Web Application Context的配置来回传给DispatcherServlet相应的Controller
 		initHandlerMappings(context);
+		// 初始化"HandlerAdapter"【重要、核心】
+		// Spring中使用的handler并没有任何特殊的联系，但是为了统一处理，Spring提供了不同情况下的适配器
 		initHandlerAdapters(context);
+		// 初始化"HandlerExceptionResolver"
+		// 基于HandlerExceptionResolver接口的异常处理，使用这种方式只需要实现resolveExceptin方法，该方法返回一个ModelAndView对象，在方法内部对异常的类型进行判断，然后尝试生成对应的ModelAndView对象，如果该方法返回了null，则Spring会继续寻找其他的实现了HandlerExceptionResolver接口的bean。
+		// 换言之，Spring会搜索所有注册在其环境中的实现了HandlerExceptionResolver接口的bean，逐个执行，直到返回了一个ModelAndView对象。
 		initHandlerExceptionResolvers(context);
+		// 初始化"RequestToViewNameTranslator"
+		// 当Controller处理器方法没有返回一个View对象或逻辑视图名称，并且在该方法中没有直接往response的输出流里面写数据时，Spring就会采用约定好的方式提供一个逻辑视图名称。
 		initRequestToViewNameTranslator(context);
+		// 初始化"ViewResolvers"【重点、核心】
+		// 在SpringMVC中，当Controller将请求结果放入到ModelAndView中以后，DispatcherServlet会根据ModelAndView选择合适的视图进行渲染
 		initViewResolvers(context);
+		// 不常见，待研究
 		initFlashMapManager(context);
 	}
 
@@ -527,6 +543,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			}
 		}
 		catch (NoSuchBeanDefinitionException ex) {
+			// 默认是没有文件解析器的
 			// Default is no multipart resolver.
 			this.multipartResolver = null;
 			if (logger.isTraceEnabled()) {
@@ -551,6 +568,8 @@ public class DispatcherServlet extends FrameworkServlet {
 			}
 		}
 		catch (NoSuchBeanDefinitionException ex) {
+			// 默认是指定了"区域解析器"的。在DispatcherServlet.properties文件中指定
+			// 默认 = AcceptHeaderLocaleResolver（基于请求头的区域解析器）
 			// We need to use the default.
 			this.localeResolver = getDefaultStrategy(context, LocaleResolver.class);
 			if (logger.isTraceEnabled()) {
@@ -593,6 +612,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	private void initHandlerMappings(ApplicationContext context) {
 		this.handlerMappings = null;
 
+		// 是否检测所有的 HandlerMappings，因为可以有多个
 		if (this.detectAllHandlerMappings) {
 			// Find all HandlerMappings in the ApplicationContext, including ancestor contexts.
 			Map<String, HandlerMapping> matchingBeans =
@@ -603,6 +623,7 @@ public class DispatcherServlet extends FrameworkServlet {
 				AnnotationAwareOrderComparator.sort(this.handlerMappings);
 			}
 		}
+		// 只用一个
 		else {
 			try {
 				HandlerMapping hm = context.getBean(HANDLER_MAPPING_BEAN_NAME, HandlerMapping.class);
@@ -613,6 +634,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			}
 		}
 
+		// 默认兜底的，有【BeanNameUrlHandlerMapping、RequestMappingHandlerMapping】
 		// Ensure we have at least one HandlerMapping, by registering
 		// a default HandlerMapping if no other mappings are found.
 		if (this.handlerMappings == null) {
@@ -632,6 +654,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	private void initHandlerAdapters(ApplicationContext context) {
 		this.handlerAdapters = null;
 
+		// 是否检测所有的 HandlerAdapter，因为可以有多个
 		if (this.detectAllHandlerAdapters) {
 			// Find all HandlerAdapters in the ApplicationContext, including ancestor contexts.
 			Map<String, HandlerAdapter> matchingBeans =
@@ -642,6 +665,8 @@ public class DispatcherServlet extends FrameworkServlet {
 				AnnotationAwareOrderComparator.sort(this.handlerAdapters);
 			}
 		}
+
+		// 有一个
 		else {
 			try {
 				HandlerAdapter ha = context.getBean(HANDLER_ADAPTER_BEAN_NAME, HandlerAdapter.class);
@@ -652,6 +677,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			}
 		}
 
+		// 兜底，默认的配置【HttpRequestHandlerAdapter、SimpleControllerHandlerAdapter、RequestMappingHandlerAdapter】
 		// Ensure we have at least some HandlerAdapters, by registering
 		// default HandlerAdapters if no other adapters are found.
 		if (this.handlerAdapters == null) {
@@ -671,6 +697,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	private void initHandlerExceptionResolvers(ApplicationContext context) {
 		this.handlerExceptionResolvers = null;
 
+		// 是否应用多个
 		if (this.detectAllHandlerExceptionResolvers) {
 			// Find all HandlerExceptionResolvers in the ApplicationContext, including ancestor contexts.
 			Map<String, HandlerExceptionResolver> matchingBeans = BeanFactoryUtils
@@ -681,6 +708,8 @@ public class DispatcherServlet extends FrameworkServlet {
 				AnnotationAwareOrderComparator.sort(this.handlerExceptionResolvers);
 			}
 		}
+
+		// 应用一个
 		else {
 			try {
 				HandlerExceptionResolver her =
@@ -692,6 +721,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			}
 		}
 
+		// 兜底的，默认是【ExceptionHandlerExceptionResolver、ResponseStatusExceptionResolver、DefaultHandlerExceptionResolver】
 		// Ensure we have at least some HandlerExceptionResolvers, by registering
 		// default HandlerExceptionResolvers if no other resolvers are found.
 		if (this.handlerExceptionResolvers == null) {
@@ -719,6 +749,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			}
 		}
 		catch (NoSuchBeanDefinitionException ex) {
+			// 兜底的，默认是【DefaultRequestToViewNameTranslator】
 			// We need to use the default.
 			this.viewNameTranslator = getDefaultStrategy(context, RequestToViewNameTranslator.class);
 			if (logger.isTraceEnabled()) {
