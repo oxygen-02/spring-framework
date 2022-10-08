@@ -37,6 +37,10 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
  */
 public class ResourceHandlerRegistration {
 
+	/**
+	 * 注册静态资源处理器的路径
+	 * 路径是：pathPatterns， 静态资源处理器是：ResourceHttpRequestHandler
+	 */
 	private final String[] pathPatterns;
 
 	private final List<String> locationValues = new ArrayList<>();

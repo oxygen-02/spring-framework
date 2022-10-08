@@ -34,6 +34,13 @@ import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
  * @author Keith Donald
  * @since 3.1
  */
+/**
+ * 功能: 协助 注册预先配置的"simple automated controllers".
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
+ * @since 2022-10-07
+ */
 public class ViewControllerRegistry {
 
 	@Nullable
