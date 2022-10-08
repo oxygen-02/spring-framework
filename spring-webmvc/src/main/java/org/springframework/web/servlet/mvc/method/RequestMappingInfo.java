@@ -16,10 +16,9 @@
 
 package org.springframework.web.servlet.mvc.method;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.lang.Nullable;
@@ -40,18 +39,25 @@ import org.springframework.web.util.UrlPathHelper;
 /**
  * Request mapping information. Encapsulates the following request mapping conditions:
  * <ol>
- * <li>{@link PatternsRequestCondition}
- * <li>{@link RequestMethodsRequestCondition}
- * <li>{@link ParamsRequestCondition}
- * <li>{@link HeadersRequestCondition}
- * <li>{@link ConsumesRequestCondition}
- * <li>{@link ProducesRequestCondition}
+ * <li>{@link org.springframework.web.servlet.mvc.condition.PatternsRequestCondition}
+ * <li>{@link org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition}
+ * <li>{@link org.springframework.web.servlet.mvc.condition.ParamsRequestCondition}
+ * <li>{@link org.springframework.web.servlet.mvc.condition.HeadersRequestCondition}
+ * <li>{@link org.springframework.web.servlet.mvc.condition.ConsumesRequestCondition}
+ * <li>{@link org.springframework.web.servlet.mvc.condition.ProducesRequestCondition}
  * <li>{@code RequestCondition} (optional, custom request condition)
  * </ol>
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
  * @since 3.1
+ */
+/**
+ * 功能: 其实就是@RequestMapping注解上的配置的信息.
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
+ * @since 2022-10-08
  */
 public final class RequestMappingInfo implements RequestCondition<RequestMappingInfo> {
 

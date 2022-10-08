@@ -64,6 +64,9 @@ public class HandlerMethod {
 	/** Logger that is available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * mvc的handler方法所在的bean的名称
+	 */
 	private final Object bean;
 
 	@Nullable
@@ -71,10 +74,16 @@ public class HandlerMethod {
 
 	private final Class<?> beanType;
 
+	/**
+	 * mvc的handler方法
+	 */
 	private final Method method;
 
 	private final Method bridgedMethod;
 
+	/**
+	 * mvc的handler方法的参数列表
+	 */
 	private final MethodParameter[] parameters;
 
 	@Nullable
