@@ -16,6 +16,9 @@
 
 package org.springframework.web.servlet.resource;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -27,13 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.EmbeddedValueResolverAware;
@@ -79,9 +77,9 @@ import org.springframework.web.util.UrlPathHelper;
  * {@link #setResourceResolvers(List) resourcesResolver} and
  * {@link #setResourceTransformers(List) resourceTransformer} chains to support
  * arbitrary resolution and transformation of resources being served. By default
- * a {@link PathResourceResolver} simply finds resources based on the configured
+ * a {@link org.springframework.web.servlet.resource.PathResourceResolver} simply finds resources based on the configured
  * "locations". An application can configure additional resolvers and transformers
- * such as the {@link VersionResourceResolver} which can resolve and prepare URLs
+ * such as the {@link org.springframework.web.servlet.resource.VersionResourceResolver} which can resolve and prepare URLs
  * for resources with a version in the URL.
  *
  * <p>This handler also properly evaluates the {@code Last-Modified} header
@@ -95,6 +93,13 @@ import org.springframework.web.util.UrlPathHelper;
  * @author Brian Clozel
  * @author Rossen Stoyanchev
  * @since 3.0.4
+ */
+/**
+ * 功能: 静态资源处理器.
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
+ * @since 2022-10-08
  */
 public class ResourceHttpRequestHandler extends WebContentGenerator
 		implements HttpRequestHandler, EmbeddedValueResolverAware, InitializingBean, CorsConfigurationSource {
