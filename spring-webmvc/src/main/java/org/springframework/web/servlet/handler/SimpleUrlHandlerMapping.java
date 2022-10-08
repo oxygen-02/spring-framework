@@ -54,8 +54,20 @@ import org.springframework.util.CollectionUtils;
  * @see #setUrlMap
  * @see BeanNameUrlHandlerMapping
  */
+/**
+ * 功能: 1、映射 URLs ---> bean instance
+ *       2、映射 URLs ---> bean name.
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
+ * @since 2022-10-08
+ */
 public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 
+	/**
+	 * SimpleUrlHandlerMapping 处理器映射器保存映射【key=urls，value=xxxx】
+	 * value可以是任何类型，目前看可以是bean name 或者 bean instance
+	 */
 	private final Map<String, Object> urlMap = new LinkedHashMap<>();
 
 
@@ -68,6 +80,7 @@ public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 	 * @see #setUrlMap
 	 */
 	public void setMappings(Properties mappings) {
+		// 映射 URL paths 到 handler bean names
 		CollectionUtils.mergePropertiesIntoMap(mappings, this.urlMap);
 	}
 

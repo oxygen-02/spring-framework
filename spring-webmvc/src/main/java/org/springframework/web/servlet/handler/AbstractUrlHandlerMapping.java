@@ -16,15 +16,14 @@
 
 package org.springframework.web.servlet.handler;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -61,6 +60,10 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 
 	private boolean lazyInitHandlers = false;
 
+	/**
+	 * BeanNameUrlHandlerMapping 处理器映射器保存的映射【key是以"/"开头的beanName，values=beanName】
+	 * value的类型可以是任何类型，目前看是bean的String类型
+	 */
 	private final Map<String, Object> handlerMap = new LinkedHashMap<>();
 
 
@@ -119,9 +122,15 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	 */
 	@Override
 	@Nullable
+	// 查找handler 根据请求的[url path]路径来寻找
 	protected Object getHandlerInternal(HttpServletRequest request) throws Exception {
+		// 查找到uri（根据request.getRequestURI();）
 		String lookupPath = getUrlPathHelper().getLookupPathForRequest(request);
+
+		// 获取实际的handler
 		Object handler = lookupHandler(lookupPath, request);
+
+		// 如果handler不存在，那么handler是什么
 		if (handler == null) {
 			// We need to care for the default handler directly, since we need to
 			// expose the PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE for it as well.
@@ -160,6 +169,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	 */
 	@Nullable
 	protected Object lookupHandler(String urlPath, HttpServletRequest request) throws Exception {
+		// 直接匹配到（request.getRequestURI 与 (以/开头的)beanName 匹配
 		// Direct match?
 		Object handler = this.handlerMap.get(urlPath);
 		if (handler != null) {
@@ -172,6 +182,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 			return buildPathExposingHandler(handler, urlPath, urlPath, null);
 		}
 
+		// 模式匹配到？还是我们的老朋友"ant-style"风格的模式匹配
 		// Pattern match?
 		List<String> matchingPatterns = new ArrayList<>();
 		for (String registeredPattern : this.handlerMap.keySet()) {
@@ -185,6 +196,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 			}
 		}
 
+		// 如果匹配到多个，则需要根据排序选择第一个
 		String bestMatch = null;
 		Comparator<String> patternComparator = getPathMatcher().getPatternComparator(urlPath);
 		if (!matchingPatterns.isEmpty()) {
