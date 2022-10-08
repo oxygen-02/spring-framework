@@ -5,6 +5,8 @@
        xmlns:bean="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!-- 本文件在 DispatcherServlet 阶段被加载到"servlet context"中 -->
+
     <!-- 映射配置 -->
     <bean id="simpleUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
@@ -27,9 +29,9 @@
     </bean>
 
 
-<!--    &lt;!&ndash; 开启mvc的注解功能 &ndash;&gt;-->
-<!--    <mvc:annotation-driven/>-->
-<!--    &lt;!&ndash; 这里扫描包范围要控制在controller，service等其他包扫描交给"根web应用上下文"，当然也可以不要本文件（推荐不要本文件） &ndash;&gt;-->
-<!--    <context:component-scan base-package="com.firefish.springsourcecodedeepanalysis.chapter11_mvc.controller"/>-->
+    <!-- 开启mvc的注解功能 -->
+    <mvc:annotation-driven/>
+    <!-- 这里扫描包范围要控制在controller，service等其他包扫描交给"根web应用上下文"，当然也可以不要本文件（推荐不要本文件） -->
+    <context:component-scan base-package="com.firefish.springsourcecodedeepanalysis.chapter11_mvc.controller"/>
 
 </beans>

@@ -10,7 +10,7 @@
        http://www.springframework.org/schema/mvc
        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-
+<!-- 本文件在ContextLoaderListener 阶段被加载到"web application context"中 -->
 
 
 
