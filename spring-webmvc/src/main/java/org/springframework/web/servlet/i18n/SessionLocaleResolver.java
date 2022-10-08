@@ -16,11 +16,10 @@
 
 package org.springframework.web.servlet.i18n;
 
-import java.util.Locale;
-import java.util.TimeZone;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.TimeZoneAwareLocaleContext;
@@ -43,7 +42,7 @@ import org.springframework.web.util.WebUtils;
  * request. As a more convenient alternative, consider using
  * {@link org.springframework.web.servlet.support.RequestContext#changeLocale}.
  *
- * <p>In contrast to {@link CookieLocaleResolver}, this strategy stores locally
+ * <p>In contrast to {@link org.springframework.web.servlet.i18n.CookieLocaleResolver}, this strategy stores locally
  * chosen locale settings in the Servlet container's {@code HttpSession}. As a
  * consequence, those settings are just temporary for each session and therefore
  * lost when each session terminates.
@@ -57,6 +56,13 @@ import org.springframework.web.util.WebUtils;
  * @since 27.02.2003
  * @see #setDefaultLocale
  * @see #setDefaultTimeZone
+ */
+/**
+ * 功能: 用于请求响应的语言。 且是基于session的。如用户登录时选择语言种类，则此次登录周期内统一使用此语言设定.
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
+ * @since 2022-10-07
  */
 public class SessionLocaleResolver extends AbstractLocaleContextResolver {
 
@@ -109,6 +115,7 @@ public class SessionLocaleResolver extends AbstractLocaleContextResolver {
 
 	@Override
 	public Locale resolveLocale(HttpServletRequest request) {
+		// session有没有设置[org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCAL]属性
 		Locale locale = (Locale) WebUtils.getSessionAttribute(request, this.localeAttributeName);
 		if (locale == null) {
 			locale = determineDefaultLocale(request);

@@ -16,10 +16,9 @@
 
 package org.springframework.web.servlet;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 import org.springframework.lang.Nullable;
 
@@ -50,6 +49,13 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.context.i18n.LocaleContextHolder
  * @see org.springframework.web.servlet.support.RequestContext#getLocale
  * @see org.springframework.web.servlet.support.RequestContextUtils#getLocale
+ */
+/**
+ * 功能: 解决requst/response的语言方案。.
+ * @author Fire Fish
+ * <a href="https://gitee.com/firefish985">gitee个人主页</a>
+ * <a href="https://github.com/firefish985">github个人主页</a>
+ * @since 2022-10-07
  */
 public interface LocaleResolver {
 

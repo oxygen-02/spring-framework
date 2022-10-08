@@ -16,13 +16,12 @@
 
 package org.springframework.web.servlet.i18n;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
@@ -95,10 +94,13 @@ public class AcceptHeaderLocaleResolver implements LocaleResolver {
 
 	@Override
 	public Locale resolveLocale(HttpServletRequest request) {
+		// 优先级：Accept-Language请求头   >    defaultLocale(所谓默认也就是系统部署到什么环境)
+
 		Locale defaultLocale = getDefaultLocale();
 		if (defaultLocale != null && request.getHeader("Accept-Language") == null) {
 			return defaultLocale;
 		}
+		// 从Accept-Language请求头中获取最合适的一个（根据权重）
 		Locale requestLocale = request.getLocale();
 		List<Locale> supportedLocales = getSupportedLocales();
 		if (supportedLocales.isEmpty() || supportedLocales.contains(requestLocale)) {
@@ -113,6 +115,7 @@ public class AcceptHeaderLocaleResolver implements LocaleResolver {
 
 	@Nullable
 	private Locale findSupportedLocale(HttpServletRequest request, List<Locale> supportedLocales) {
+		// 获取Accept-Language请求头所有的
 		Enumeration<Locale> requestLocales = request.getLocales();
 		Locale languageMatch = null;
 		while (requestLocales.hasMoreElements()) {
