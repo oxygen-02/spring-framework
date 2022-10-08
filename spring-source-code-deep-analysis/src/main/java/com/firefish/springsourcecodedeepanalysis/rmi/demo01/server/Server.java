@@ -4,7 +4,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.concurrent.CountDownLatch;
 
-import com.firefish.springsourcecodedeepanalysis.rmi.demo01.common.User;
+import com.firefish.springsourcecodedeepanalysis.rmi.demo01.common.UserService;
 
 /**
  * 功能: Server.java负责将远程对象绑定至注册中心。.
@@ -16,9 +16,12 @@ import com.firefish.springsourcecodedeepanalysis.rmi.demo01.common.User;
  */
 public class Server {
 	public static void main(String[] args) throws Exception {
-		User liming = new LocalUser("liming",15);
+		UserService liming = new UserServiceImpl();
 
+		// 注册一个端口提供服务
 		Registry registry = LocateRegistry.createRegistry(8888);
+
+		// 暴露服务端的功能
 		registry.bind("user",liming);
 
 		System.out.println("registry is running...");

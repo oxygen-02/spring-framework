@@ -12,8 +12,7 @@ import java.rmi.RemoteException;
  * <a href="https://github.com/firefish985">github个人主页</a>
  * @since 2022-10-08
  */
-public interface User extends java.rmi.Remote {
-    public String getName() throws RemoteException;;
-    public User getUser() throws RemoteException;
-    public void updateName(String name) throws RemoteException;;
+public interface UserService extends java.rmi.Remote {
+    public String getName() throws RemoteException;
+    public void updateName(String name) throws RemoteException;
 }
