@@ -16,12 +16,11 @@
 
 package org.springframework.web.servlet.view;
 
-import java.util.Map;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -139,6 +138,7 @@ public class InternalResourceView extends AbstractUrlBasedView {
 			Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// Expose the model object as request attributes.
+		// 将model中的数据以属性的方式设置到request中
 		exposeModelAsRequestAttributes(model, request);
 
 		// Expose helpers as request attributes, if any.
