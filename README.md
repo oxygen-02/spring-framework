@@ -1,3 +1,4 @@
+
 ## Spring源码编译
 
 如何省时省力完成Spring源码编译，How do，怎么做。请继续...
@@ -39,13 +40,13 @@ Spring源码时基于gradle编译的，不同于我们常见项目用的maven。
 
 ### 编译源码
 
-#### 1、下载源码zip包或者clone项目
+#### 下载源码zip包或者clone项目
 
 ```shell
 git clone https://gitee.com/firefish985/spring-framework-deepanalysis.git
 ```
 
-#### 2、切换到源码的5.1x分支
+#### 切换到源码的5.1x分支
 
 这里主要研究的是Spring5，作者的所有注释都是在5.1分支
 
@@ -64,7 +65,7 @@ git checkout 5.1.x
 
 ![](https://firefish-dev-images.oss-cn-hangzhou.aliyuncs.com/dev-images/2022-09-10-09-50-19-image.png)
 
-#### 3、用idea导入项目
+#### 用idea导入项目
 
 导入过程中会去阿里云下载非常多依赖的jar包、gradle安装等文件，耗费时间很多，请泡一杯咖啡、打开中国好声音、打开网易云音乐听听歌。
 
@@ -76,7 +77,7 @@ git checkout 5.1.x
 
 如果出现了错误，也不要担心，相比从官方编译和按我这种方式编译，我这是最小成本，您可以自行解决一下或在gitee该项目下评论与我联系。
 
-#### 4、验证导入的项目
+#### 验证导入的项目
 
 作者新建了一个自定义的模块：spring-source-code-deep-analysis，用来测试和debug官方的项目。如您可以选择<mark>BeanFactoryTest</mark>运行一个测试
 
@@ -88,7 +89,7 @@ git checkout 5.1.x
 
 至此完成了全部的项目编译，请畅游Spring源码特征
 
-#### 5、致谢
+#### 致谢
 
 源码注释 或 gitee提交记录或许对你有些用处
 
@@ -101,7 +102,7 @@ git checkout 5.1.x
 - 欢迎各位开发道友提issue、交流
 
 
-#### 5、彩蛋
+#### 彩蛋
 
 如果你也想添加自己的模块，可以参考我添加spring-source-code-deep-analysis模块同样的方式。我的添加方式我放在了gitee的提交记录中，如下：
 
