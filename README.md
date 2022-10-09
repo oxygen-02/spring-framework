@@ -1,14 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 - [Spring源码编译](#spring%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91)
-  - [Spring源码编译](#spring%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-1)
-    - [项目介绍](#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D)
-    - [前置条件](#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6)
-    - [编译源码](#%E7%BC%96%E8%AF%91%E6%BA%90%E7%A0%81)
-      - [1、下载源码zip包或者clone项目](#1%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81zip%E5%8C%85%E6%88%96%E8%80%85clone%E9%A1%B9%E7%9B%AE)
-      - [2、切换到源码的5.1x分支](#2%E5%88%87%E6%8D%A2%E5%88%B0%E6%BA%90%E7%A0%81%E7%9A%8451x%E5%88%86%E6%94%AF)
-      - [3、用idea导入项目](#3%E7%94%A8idea%E5%AF%BC%E5%85%A5%E9%A1%B9%E7%9B%AE)
-      - [4、验证导入的项目](#4%E9%AA%8C%E8%AF%81%E5%AF%BC%E5%85%A5%E7%9A%84%E9%A1%B9%E7%9B%AE)
-      - [5、致谢](#5%E8%87%B4%E8%B0%A2)
-      - [5、彩蛋](#5%E5%BD%A9%E8%9B%8B)
+  - [项目介绍](#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D)
+  - [前置条件](#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6)
+  - [编译源码](#%E7%BC%96%E8%AF%91%E6%BA%90%E7%A0%81)
+    - [1、下载源码zip包或者clone项目](#1%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81zip%E5%8C%85%E6%88%96%E8%80%85clone%E9%A1%B9%E7%9B%AE)
+    - [2、切换到源码的5.1x分支](#2%E5%88%87%E6%8D%A2%E5%88%B0%E6%BA%90%E7%A0%81%E7%9A%8451x%E5%88%86%E6%94%AF)
+    - [3、用idea导入项目](#3%E7%94%A8idea%E5%AF%BC%E5%85%A5%E9%A1%B9%E7%9B%AE)
+    - [4、验证导入的项目](#4%E9%AA%8C%E8%AF%81%E5%AF%BC%E5%85%A5%E7%9A%84%E9%A1%B9%E7%9B%AE)
+    - [5、致谢](#5%E8%87%B4%E8%B0%A2)
+    - [5、彩蛋](#5%E5%BD%A9%E8%9B%8B)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 ## Spring源码编译
 
