@@ -2,7 +2,6 @@ package com.firefish.springsourcecodedeepanalysis.rmi.demo01.server;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.concurrent.CountDownLatch;
 
 import com.firefish.springsourcecodedeepanalysis.rmi.demo01.common.UserService;
 
@@ -27,10 +26,5 @@ public class Server {
 		System.out.println("registry is running...");
 
 		System.out.println("liming is bind in registry");
-
-		CountDownLatch latch=new CountDownLatch(1);
-
-		latch.await();
 	}
-
 }
