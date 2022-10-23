@@ -1,7 +1,7 @@
 
 ## Spring源码编译
 
-如何省时省力完成Spring源码编译，How do，怎么做。请继续...，编译过程遇到困难可与<a href="https://gitee.com/firefish985/spring-framework-deepanalysis/tree/5.1.x#%E5%BD%A9%E8%9B%8B">作者联系</a>。
+如何省时省力完成Spring源码编译，How do，怎么做。请继续...，编译过程遇到困难可与<a href="https://gitee.com/firefish985/spring-framework-deepanalysis/tree/5.1.x#%E8%81%94%E7%B3%BB%E4%BD%9C%E8%80%85">作者联系</a>。
 
 Spring的源码编译对于接触Spring不久的开发者可能是个小的挑战，妨碍了我们学习Spring特征的兴趣。而当下的目标是学习Spring而不是拘泥于环境配置，能不能跳过这一步直接学习呢？等学习到一定程度了自然就会了源码的编译。基于这个原因我在gitee上创建了一个简单、开箱即用的spring源码项目，直接当做普通的项目下载导入IDEA就可以运行。
 
