@@ -19,9 +19,10 @@ RPC（Remote Processor Call）就是远程过程调用。是一个概念，既�
 ### 公共接口
 1、这个一个接口，是客户端和服务端都要有的接口。
 
-2、客户端只有有这个接口知道服务端提供了哪些功能就可以了
+上图是我修改后画的，也可以看看先知中这个师傅里边用的流程图
 
-3、服务端需要实现接口来提供功能
+![](https://firefish-dev-images.oss-cn-hangzhou.aliyuncs.com/dev-images/v2-6feada738b25de640a50643e20292152_r.jpg)
+图片来源：https://xz.aliyun.com/t/2223
 
 `UserService.java`
 ```java
